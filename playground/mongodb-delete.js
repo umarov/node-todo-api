@@ -12,9 +12,9 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db) => {
   console.log('Connected to MongoDB server')
 
   db.collection('Todos')
-    .count({ completed: false })
+    .deleteMany({ text: 'Eat lunch' })
     .then(docs => {
-      console.log(`Todos count: ${docs}`);
+      console.log(`Todo deleted: ${docs}`);
     })
     .catch(err => console.log('Unable to fetch todos', err))
     .then(() => db.close());
