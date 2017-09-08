@@ -12,13 +12,13 @@ const app = express();
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
-  res.send('Welcome to Node Todo App.')
+  res.send('Welcome to Node Todo App.');
 });
 
 app.get('/todos', async (req, res) => {
   try {
     const todos = await Todo.find();
-    res.send({ todos })
+    res.send({ todos });
   } catch(err) {
     res.status(400).send(err);
   }
