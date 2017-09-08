@@ -1,5 +1,6 @@
 const expect = require('expect');
 const request = require('supertest');
+const { ObjectId } = require('mongodb');
 
 const { app } = require('../server');
 const { Todo } = require('./../models/todo');
@@ -27,7 +28,7 @@ describe('POST /todos', () => {
       .send({ text })
       .expect(200)
       .expect((res) => {
-        expect(res.body.text).toBe(text);
+        expect(res.body.todo.text).toBe(text);
       })
       .end((err, res) => {
         if (err) { return done(err) }
@@ -72,6 +73,38 @@ describe('GET /todos', () => {
       .expect(res => {
         expect(res.body.todos.length).toBe(todos.length);
       })
+      .end(done);
+  });
+});
+
+describe('GET /todos/:id', () => {
+  it('should get a todo with provided ID', (done) => {
+    Todo
+      .find()
+      .then(([todo, ]) => {
+        request(app)
+          .get(`/todos/${todo._id}`)
+          .expect(200)
+          .expect(res => {
+            expect(res.body.todo._id).toBe(todo._id.toString());
+            expect(res.body.todo.text).toBe(todo.text);
+          })
+          .end(done);
+      })
+      .catch(done)
+  });
+
+  it('should return a 404 with a non-ObjectId', (done) => {
+    request(app)
+      .get(`/todos/23123`)
+      .expect(404)
+      .end(done);
+  });
+
+  it('should return a 404 if a todo was not found', (done) => {
+    request(app)
+      .get(`/todos/${new ObjectId()}`)
+      .expect(404)
       .end(done);
   });
 });

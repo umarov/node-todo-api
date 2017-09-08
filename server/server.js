@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const { ObjectId } = require('mongodb');
 
 const port = process.env.PORT || 3000;
 
@@ -28,9 +29,28 @@ app.post('/todos', async (req, res) => {
   const todo = new Todo(req.body)
   try {
     await todo.save();
-    res.send(todo);
+    res.send({ todo });
   } catch (e) {
     res.status(400).send(e);
+  }
+});
+
+app.get('/todos/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!ObjectId.isValid(id)) {
+      return res.status(404).send()
+    }
+
+    const todo = await Todo.findById(id)
+
+    if (todo) {
+      res.send({ todo });
+    } else {
+      res.status(404).send();
+    }
+  } catch(err) {
+    res.status(404).send();
   }
 });
 
