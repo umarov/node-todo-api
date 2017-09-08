@@ -16,7 +16,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/todos', async (req, res) => {
-  res.send(await Todo.find({}))
+  try {
+    const todos = await Todo.find();
+    res.send({ todos })
+  } catch(err) {
+    res.status(400).send(err);
+  }
 });
 
 app.post('/todos', async (req, res) => {
