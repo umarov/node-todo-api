@@ -11,6 +11,10 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.get('/', (req, res) => {
+  res.send('Welcome to Node Todo App.')
+});
+
 app.get('/todos', async (req, res) => {
   res.send(await Todo.find({}))
 });
