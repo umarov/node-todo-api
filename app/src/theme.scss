@@ -2,7 +2,7 @@
 @include mat-core();
 
 $todo-app-primary: mat-palette($mat-blue);
-$todo-app-accent: mat-palette($mat-yellow, A200, A100, A400);
+$todo-app-accent: mat-palette($mat-green, A200, A100, A400);
 
 $todo-app-warn: mat-palette($mat-red);
 
