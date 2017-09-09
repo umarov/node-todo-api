@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "prod": "ng build --prod --build-optimizer=true"
+    "prod": "ng build --prod --build-optimizer=true && cp ../docs/index.html ../docs/404.html"
   },
   "private": true,
   "dependencies": {
