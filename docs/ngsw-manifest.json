@@ -1,13 +1,13 @@
 {
   "static": {
     "urls": {
-      "/node-todo-api/polyfills.c9b879328f3396b2bbe8.bundle.js": "f2e91c6f4472fc6398924ea6737b27cb19d51e02",
-      "/node-todo-api/main.bcbd6c286b6d9ac0bf8a.bundle.js": "a113e606be535476474ef6ada034793221d093cf",
-      "/node-todo-api/sw-register.6819cd2c5fa25470ecf2.bundle.js": "50d549edfbd188ed199d8d0b079afa593202e3ea",
-      "/node-todo-api/inline.8d84026a3513bb768369.bundle.js": "176cdf84a39871452752c9501b97b66b475a8ee6",
-      "/node-todo-api/styles.d41d8cd98f00b204e980.bundle.css": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
-      "/node-todo-api/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-      "/node-todo-api/index.html": "26d36f05fcded58ad72fee9860687ed4f3173b6e"
+      "node-todo-api/polyfills.c9b879328f3396b2bbe8.bundle.js": "f2e91c6f4472fc6398924ea6737b27cb19d51e02",
+      "node-todo-api/main.bcbd6c286b6d9ac0bf8a.bundle.js": "a113e606be535476474ef6ada034793221d093cf",
+      "node-todo-api/sw-register.6819cd2c5fa25470ecf2.bundle.js": "50d549edfbd188ed199d8d0b079afa593202e3ea",
+      "node-todo-api/inline.8d84026a3513bb768369.bundle.js": "176cdf84a39871452752c9501b97b66b475a8ee6",
+      "node-todo-api/styles.d41d8cd98f00b204e980.bundle.css": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+      "node-todo-api/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
+      "node-todo-api/index.html": "8e7dd785f061c7d2229811d24aab430e59296230"
     },
     "_generatedFromWebpack": true
   }
