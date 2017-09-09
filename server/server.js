@@ -1,14 +1,25 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+const express      = require('express');
+const bodyParser   = require('body-parser');
 const { ObjectId } = require('mongodb');
+const cors         = require('cors');
 
 const port = process.env.PORT || 3000;
+const production = process.env.NODE_ENV || false
 
 const { mongoose } = require('./db/mongoose');
 const { User } = require('./models/user');
 const { Todo } = require('./models/todo');
 
 const app = express();
+
+const originUrl = production ? 'https://umarov.github.io/node-todo-api' : 'http://localhost:4200';
+
+app.use(cors({
+  "origin": originUrl,
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
+}))
 
 app.use(bodyParser.json());
 

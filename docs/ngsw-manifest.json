@@ -18,10 +18,10 @@
   "static": {
     "urls": {
       "node-todo-api/polyfills.c9b879328f3396b2bbe8.bundle.js": "f2e91c6f4472fc6398924ea6737b27cb19d51e02",
-      "node-todo-api/main.bcbd6c286b6d9ac0bf8a.bundle.js": "a113e606be535476474ef6ada034793221d093cf",
+      "node-todo-api/main.0ff09f255f0c38bc1d71.bundle.js": "835f84e12408932b581ceddcf74a7c939fd89774",
       "node-todo-api/sw-register.6819cd2c5fa25470ecf2.bundle.js": "50d549edfbd188ed199d8d0b079afa593202e3ea",
-      "node-todo-api/inline.8d84026a3513bb768369.bundle.js": "176cdf84a39871452752c9501b97b66b475a8ee6",
-      "node-todo-api/styles.d41d8cd98f00b204e980.bundle.css": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+      "node-todo-api/inline.ec4aeb8b115a2ecad149.bundle.js": "49782393b5fc61f86d235c8e6b9e6efbeb1f0636",
+      "node-todo-api/styles.250cc80a49f63b9416bf.bundle.css": "0e852fbeb764a087bd45d62561cb2184670bb56a",
       "node-todo-api/favicon.ico": "75d07f964db255c784ea7c163581b3574b5bdd18",
       "node-todo-api/android-chrome-144x144.png": "a784c179e925a1de082b0ed3c9baa89cbfed6844",
       "node-todo-api/android-chrome-192x192.png": "5da8d75f9e5287cf4bf8ed00ffaa7e78d3a6fd3a",
@@ -40,7 +40,7 @@
       "node-todo-api/mstile-150x150.png": "d20b45a9b110dbd2e7bcec2ff78418e3ab934f6b",
       "node-todo-api/safari-pinned-tab.svg": "9070b9d048247102ffcf131c0af888e25c009f3e",
       "node-todo-api/manifest.json": "756c468e47d40a38b4bf2c2f9356856370066a2d",
-      "node-todo-api/index.html": "6c823498c97b245a1d9e14519b4d70e25161372b"
+      "node-todo-api/index.html": "dbf33c0800a69778ebc819e838488e2e2a382971"
     },
     "_generatedFromWebpack": true
   }
