@@ -5,11 +5,5 @@
   <span class="fill-remaining-space"></span>
 
 </md-toolbar>
-<h2 class="mat-h2">Welcome to todo api front end built with angular 4</h2>
 
-<md-list>
-  <md-list-item *ngFor="let todo of todos | async">
-    <md-checkbox [checked]="todo.completed">{{ todo.text }}</md-checkbox>
-  </md-list-item>
- </md-list>
-
+<app-todo-lists></app-todo-lists>

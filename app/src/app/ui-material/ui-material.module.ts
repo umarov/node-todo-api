@@ -5,7 +5,8 @@ import {
   MdButtonModule,
   MdCheckboxModule,
   MdToolbarModule,
-  MdListModule
+  MdListModule,
+  MdCardModule
 } from '@angular/material';
 
 
@@ -15,13 +16,15 @@ import {
     MdButtonModule,
     MdCheckboxModule,
     MdToolbarModule,
-    MdListModule
+    MdListModule,
+    MdCardModule
   ],
   exports: [
     MdButtonModule,
     MdCheckboxModule,
     MdToolbarModule,
-    MdListModule
+    MdListModule,
+    MdCardModule
   ]
 })
 export class UiMaterialModule { }

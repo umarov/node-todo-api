@@ -1,5 +1,4 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { TodosService } from './todos/todos.service';
 
 @Component({
   selector: 'app-root',
@@ -8,11 +7,7 @@ import { TodosService } from './todos/todos.service';
   encapsulation: ViewEncapsulation.Native
 })
 export class AppComponent implements OnInit {
-  todos;
 
-  constructor(private todosService: TodosService) {
-    this.todos = this.todosService.getTodos();
-  }
 
   ngOnInit(): void {
 

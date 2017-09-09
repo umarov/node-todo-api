@@ -5,11 +5,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { UiMaterialModule } from './ui-material/ui-material.module';
+import { TodoListsService } from './todo-lists/todo-lists.service';
+import { TodosComponent } from './todos/todos.component';
+import { TodoListsComponent } from './todo-lists/todo-lists.component';
 import { TodosService } from './todos/todos.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TodosComponent,
+    TodoListsComponent
   ],
   imports: [
     BrowserModule,
@@ -17,7 +22,10 @@ import { TodosService } from './todos/todos.service';
     HttpClientModule,
     UiMaterialModule
   ],
-  providers: [TodosService],
+  providers: [
+    TodoListsService,
+    TodosService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,7 @@
+<md-card *ngFor="let todoList of todoLists | async">
+  <md-card-title>
+    {{ todoList.title }}
+  </md-card-title>
+
+  <app-todos [todoListId]="todoList._id"></app-todos>
+</md-card>
