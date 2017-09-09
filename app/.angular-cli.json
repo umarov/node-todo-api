@@ -10,7 +10,10 @@
       "baseHref": "node-todo-api",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        "*.png",
+        "*.svg",
+        "manifest.json"
       ],
       "index": "index.html",
       "main": "main.ts",
