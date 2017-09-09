@@ -7,7 +7,7 @@
     {
       "root": "src",
       "outDir": "../docs",
-      "baseHref": "./node-todo-api",
+      "baseHref": "./",
       "assets": [
         "assets",
         "favicon.ico",
