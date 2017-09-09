@@ -12,7 +12,7 @@ const { Todo } = require('./models/todo');
 
 const app = express();
 
-const originUrl = production ? 'https://umarov.github.io/node-todo-api' : 'http://localhost:4200';
+const originUrl = production ? 'https://umarov.github.io' : 'http://localhost:4200';
 
 app.use(cors({
   "origin": originUrl,
