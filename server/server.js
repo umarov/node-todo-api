@@ -46,6 +46,25 @@ app.post('/todos', async (req, res) => {
   }
 });
 
+app.delete('/todos/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!ObjectId.isValid(id)) {
+      return res.status(404).send()
+    }
+
+    const todo = await Todo.findByIdAndRemove(id)
+
+    if (todo) {
+      res.send({ todo });
+    } else {
+      res.status(404).send();
+    }
+  } catch(_) {
+    res.status(400).send();
+  }
+});
+
 app.get('/todos/:id', async (req, res) => {
   try {
     const id = req.params.id;
