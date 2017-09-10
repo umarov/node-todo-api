@@ -127,9 +127,9 @@ describe('DELETE /todos/:id', () => {
             }
 
             Todo
-            .find()
-            .then(todos => {
-              expect(todos.length).toBe(1);
+            .findById(res.body.todo._id)
+            .then(todo => {
+              expect(todo).toBe(null);
               done();
             })
             .catch(done);
