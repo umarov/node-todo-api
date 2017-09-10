@@ -1,10 +1,11 @@
+const _            = require('lodash');
 const express      = require('express');
 const bodyParser   = require('body-parser');
 const { ObjectId } = require('mongodb');
 const cors         = require('cors');
 
 const port = process.env.PORT || 3000;
-const production = process.env.NODE_ENV || false
+const production = process.env.NODE_ENV || false;
 
 const { mongoose } = require('./db/mongoose');
 const { User } = require('./models/user');
@@ -19,7 +20,7 @@ app.use(cors({
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
   "preflightContinue": false,
   "optionsSuccessStatus": 204
-}))
+}));
 
 app.use(bodyParser.json());
 
@@ -37,7 +38,7 @@ app.get('/todos', async (req, res) => {
 });
 
 app.post('/todos', async (req, res) => {
-  const todo = new Todo(req.body)
+  const todo = new Todo(req.body);
   try {
     await todo.save();
     res.send({ todo });
@@ -50,10 +51,10 @@ app.delete('/todos/:id', async (req, res) => {
   try {
     const id = req.params.id;
     if (!ObjectId.isValid(id)) {
-      return res.status(404).send()
+      return res.status(404).send();
     }
 
-    const todo = await Todo.findByIdAndRemove(id)
+    const todo = await Todo.findByIdAndRemove(id);
 
     if (todo) {
       res.send({ todo });
@@ -69,10 +70,10 @@ app.get('/todos/:id', async (req, res) => {
   try {
     const id = req.params.id;
     if (!ObjectId.isValid(id)) {
-      return res.status(404).send()
+      return res.status(404).send();
     }
 
-    const todo = await Todo.findById(id)
+    const todo = await Todo.findById(id);
 
     if (todo) {
       res.send({ todo });
@@ -81,6 +82,38 @@ app.get('/todos/:id', async (req, res) => {
     }
   } catch(err) {
     res.status(404).send();
+  }
+});
+
+app.patch('/todos/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const body = _.pick(req.body, ['text', 'completed']);
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(404).send();
+    }
+
+    if (_.isBoolean(body.completed) && body.completed) {
+      body.completedAt = new Date().getTime();
+    } else {
+      body.completed = false;
+      body.completedAt = null;
+    }
+
+    const todo = await Todo.findByIdAndUpdate(
+      id,
+      { $set: body },
+      { new: true }
+    );
+
+    if (todo) {
+      res.status(200).send({ todo });
+    } else {
+      res.status(404).send();
+    }
+  } catch(err) {
+    res.status(400).send();
   }
 });
 

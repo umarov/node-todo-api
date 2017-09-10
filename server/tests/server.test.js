@@ -31,7 +31,7 @@ describe('POST /todos', () => {
         expect(res.body.todo.text).toBe(text);
       })
       .end((err, res) => {
-        if (err) { return done(err) }
+        if (err) { return done(err); }
 
         Todo
           .find({ text })
@@ -40,7 +40,7 @@ describe('POST /todos', () => {
             expect(todos[0].text).toBe(text);
             done();
           })
-          .catch(done)
+          .catch(done);
       });
   });
 
@@ -91,7 +91,7 @@ describe('GET /todos/:id', () => {
           })
           .end(done);
       })
-      .catch(done)
+      .catch(done);
   });
 
   it('should return a 404 with a non-ObjectId', (done) => {
@@ -135,7 +135,7 @@ describe('DELETE /todos/:id', () => {
             .catch(done);
           });
       })
-      .catch(done)
+      .catch(done);
   });
 
   it('should return a 404 with a non-ObjectId', (done) => {
@@ -148,6 +148,89 @@ describe('DELETE /todos/:id', () => {
   it('should return a 404 if a todo was not found', (done) => {
     request(app)
       .delete(`/todos/${new ObjectId().toHexString()}`)
+      .expect(404)
+      .end(done);
+  });
+});
+
+describe('PATCH /todos/:id', () => {
+  it('should update the text of a todo with provided ID', (done) => {
+    const text = "This test should pass"
+    Todo
+      .find()
+      .then(([todo, ]) => {
+        request(app)
+          .patch(`/todos/${todo._id}`)
+          .send({ text })
+          .expect(200)
+          .expect(res => {
+            expect(res.body.todo._id).toBe(todo._id.toString());
+            expect(res.body.todo.text).not.toBe(todo.text);
+          })
+          .end(done);
+      })
+      .catch(done);
+  });
+
+  it('should update the completed of a todo to true with updated completedAt with provided ID', (done) => {
+    Todo
+      .find()
+      .then(([todo, ]) => {
+        const completed = !todo.completed
+        request(app)
+          .patch(`/todos/${todo._id}`)
+          .send({ completed })
+          .expect(200)
+          .expect(res => {
+            expect(res.body.todo._id).toBe(todo._id.toString());
+            expect(res.body.todo.completed).not.toBe(todo.completed);
+            expect(res.body.todo.completed).toBeTruthy();
+            expect(res.body.todo.completedAt).not.toBe(null);
+
+          })
+          .end(done);
+      })
+      .catch(done);
+  });
+
+  it('should update the completed of a todo to false with a null completedAt with provided ID', (done) => {
+    Todo
+      .find()
+      .then(([todo, ]) => {
+        const completed = !todo.completed
+        request(app)
+          .patch(`/todos/${todo._id}`)
+          .send({ completed })
+          .end((err) => {
+            if (err) { done(err) }
+
+            request(app)
+              .patch(`/todos/${todo._id}`)
+              .send({ completed: !completed })
+              .expect(200)
+              .expect(res => {
+                expect(res.body.todo._id).toBe(todo._id.toString());
+                expect(res.body.todo.completed).toBe(todo.completed);
+                expect(res.body.todo.completed).toBeFalsy();
+                expect(res.body.todo.completedAt).toBe(null);
+
+              })
+              .end(done);
+          });
+      })
+      .catch(done);
+  });
+
+  it('should return a 404 with a non-ObjectId', (done) => {
+    request(app)
+      .patch(`/todos/23123`)
+      .expect(404)
+      .end(done);
+  });
+
+  it('should return a 404 if a todo was not found', (done) => {
+    request(app)
+      .patch(`/todos/${new ObjectId().toHexString()}`)
       .expect(404)
       .end(done);
   });
