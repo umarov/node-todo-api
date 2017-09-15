@@ -19,10 +19,10 @@ export class TodosComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.todosSubscription = this
-      .todosService
-      .getTodos(this.todoListId)
-      .subscribe(todos => this.todos = todos);
+    // this.todosSubscription = this
+    //   .todosService
+    //   .getTodos(this.todoListId)
+    //   .subscribe(todos => this.todos = todos);
   }
 
   ngOnDestroy() {

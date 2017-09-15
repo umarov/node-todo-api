@@ -13,7 +13,7 @@ export class TodoListsComponent implements OnInit {
   todoLists: Observable<TodoLists[]>;
 
   constructor(private todoListsService: TodoListsService) {
-    this.todoLists = this.todoListsService.getTodoLists();
+    // this.todoLists = this.todoListsService.getTodoLists();
   }
 
   ngOnInit() {
