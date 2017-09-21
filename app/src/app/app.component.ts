@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { TodosService } from './todos/todos.service';
+import { AuthService } from './login/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,13 +8,13 @@ import { TodosService } from './todos/todos.service';
   encapsulation: ViewEncapsulation.Native
 })
 export class AppComponent implements OnInit {
-  todos;
 
-  constructor(private todosService: TodosService) {
-    this.todos = this.todosService.getTodos();
-  }
+  constructor(public authService: AuthService) { }
 
   ngOnInit(): void {
+  }
 
+  logout() {
+    this.authService.logout();
   }
 }

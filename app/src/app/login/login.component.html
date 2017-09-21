@@ -1,0 +1,50 @@
+<md-card>
+  <form #loginForm="ngForm" (ngSubmit)="onLogin()" *ngIf="showLogin; else showSignUp">
+    <md-card-subtitle>
+      Please login with your details
+    </md-card-subtitle>
+    <md-card-content>
+      <md-form-field class="example-full-width">
+        <input mdInput type="email" placeholder="Email" name="email" required [(ngModel)]="user.email">
+      </md-form-field>
+
+      <md-form-field class="example-full-width">
+        <input mdInput type="password" placeholder="Password" name="password" required [(ngModel)]="user.password">
+      </md-form-field>
+    </md-card-content>
+    <md-card-actions>
+      <button md-raised-button color="primary" [disabled]="!loginForm.form.valid" type="submit">Login</button>
+      <button md-button color="primary" (click)="toggleLoginSignUp()">Sign up</button>
+    </md-card-actions>
+  </form>
+
+  <ng-template #showSignUp>
+    <form #signUpForm="ngForm" (ngSubmit)="onSignUp()">
+      <md-card-subtitle>
+        Sign up with your details
+      </md-card-subtitle>
+      <md-card-content>
+        <md-form-field class="example-full-width">
+          <input mdInput type="text" placeholder="Your name" name="name" required [(ngModel)]="user.name">
+        </md-form-field>
+
+        <md-form-field class="example-full-width">
+          <input mdInput type="email" placeholder="Email" name="email" required [(ngModel)]="user.email">
+        </md-form-field>
+
+        <md-form-field class="example-full-width">
+          <input mdInput type="password" placeholder="Password" name="password" required>
+        </md-form-field>
+
+        <md-form-field class="example-full-width">
+          <input mdInput type="password" placeholder="Confirm Password" name="confirmedPassword" required [(ngModel)]="user.password">
+        </md-form-field>
+      </md-card-content>
+      <md-card-actions>
+        <button md-raised-button color="primary" [disabled]="!signUpForm.form.valid" type="submit">Sign up</button>
+        <button md-button color="primary" (click)="toggleLoginSignUp()">Already have account</button>
+      </md-card-actions>
+    </form>
+  </ng-template>
+</md-card>
+

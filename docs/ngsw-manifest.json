@@ -6,30 +6,24 @@
       },
       {
         "url": "https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono"
-      },
-      {
-        "url": "https://ajax.googleapis.com/ajax/libs/hammerjs/2.0.8/hammer.min.js"
-      },
-      {
-        "url": "https://cdnjs.cloudflare.com/ajax/libs/web-animations/2.2.5/web-animations.min.js"
       }
     ]
   },
   "static": {
     "urls": {
       "./polyfills.c9b879328f3396b2bbe8.bundle.js": "f2e91c6f4472fc6398924ea6737b27cb19d51e02",
-      "./main.f6076962900af1782545.bundle.js": "c7cc19aa88b90a04a3ba05d4beaf6f7b71da7265",
+      "./main.1b3771df89b26cf006e2.bundle.js": "b550cf1e7e4dfe42e4bd2b20beb1605a77062ad2",
       "./sw-register.6819cd2c5fa25470ecf2.bundle.js": "50d549edfbd188ed199d8d0b079afa593202e3ea",
-      "./inline.a720343703c20ec13e63.bundle.js": "a03126b74587fdb6522fa1988b1fdfb3528fadfa",
+      "./inline.d3084076ce455fd2c55e.bundle.js": "eff37c54c2bb3e86299ca69c05ffb95d56564216",
       "./styles.84dd1b976029e20870d4.bundle.css": "07da07217bf0572345fbfe71cea162d57ee36349",
       "./favicon.ico": "75d07f964db255c784ea7c163581b3574b5bdd18",
       "./android-chrome-144x144.png": "a784c179e925a1de082b0ed3c9baa89cbfed6844",
-      "./android-chrome-72x72.png": "e8cb4da600d03fac823d2715d85ed2fb4deffb85",
-      "./android-chrome-48x48.png": "49a79b5b3c23b73b1d5f224e1ae0ba4212eb4b36",
-      "./android-chrome-192x192.png": "5da8d75f9e5287cf4bf8ed00ffaa7e78d3a6fd3a",
       "./android-chrome-36x36.png": "971d183ffb7be668fab426162f1d729942b78f12",
-      "./android-chrome-96x96.png": "7a2c00b43f0e7b3a9ca74c5dccb39967a3d7f629",
+      "./android-chrome-192x192.png": "5da8d75f9e5287cf4bf8ed00ffaa7e78d3a6fd3a",
+      "./android-chrome-48x48.png": "49a79b5b3c23b73b1d5f224e1ae0ba4212eb4b36",
+      "./android-chrome-72x72.png": "e8cb4da600d03fac823d2715d85ed2fb4deffb85",
       "./apple-touch-icon-120x120.png": "0a64609c7dc85f74f8f1cf4796110bcd2a71d3a5",
+      "./android-chrome-96x96.png": "7a2c00b43f0e7b3a9ca74c5dccb39967a3d7f629",
       "./apple-touch-icon-152x152.png": "50fe1f7ab38596f0163683eddf48a4ccf5cb8aba",
       "./apple-touch-icon-180x180.png": "9ad1736380bd9344b1375b6da3272d84b0f7c61a",
       "./apple-touch-icon-60x60.png": "2f92d51db5c60a0c3f9bd7655018cc468210d5a7",
@@ -40,7 +34,7 @@
       "./mstile-150x150.png": "d20b45a9b110dbd2e7bcec2ff78418e3ab934f6b",
       "./safari-pinned-tab.svg": "9070b9d048247102ffcf131c0af888e25c009f3e",
       "./manifest.json": "756c468e47d40a38b4bf2c2f9356856370066a2d",
-      "./index.html": "302bae696addabe9c979f0e14e7b1d9efa3de71c"
+      "./index.html": "e83b554dc285f7f02e5e4ecb79224230d1042330"
     },
     "_generatedFromWebpack": true
   }

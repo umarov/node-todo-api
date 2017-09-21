@@ -4,12 +4,9 @@
   <!-- This fills the remaining space of the current row -->
   <span class="fill-remaining-space"></span>
 
+  <button md-button color="white" (click)="logout()" *ngIf="authService.hasAuth()">Logout</button>
+
 </md-toolbar>
-<h2 class="mat-h2">Welcome to todo api front end built with angular 4</h2>
 
-<md-list>
-  <md-list-item *ngFor="let todo of todos | async">
-    <md-checkbox [checked]="todo.completed">{{ todo.text }}</md-checkbox>
-  </md-list-item>
- </md-list>
-
+<router-outlet></router-outlet>
+<!-- <app-todo-lists></app-todo-lists> -->

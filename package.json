@@ -13,6 +13,9 @@
   },
   "author": "",
   "license": "ISC",
+  "nodemonConfig": {
+    "ignore": ["app/*", "docs/*"]
+  },
   "dependencies": {
     "argon2": "^0.16.1",
     "body-parser": "^1.18.1",
