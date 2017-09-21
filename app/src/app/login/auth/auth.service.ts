@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../../environments/environment';
+import { Router } from '@angular/router';
 
 
 @Injectable()
@@ -9,7 +10,7 @@ export class AuthService {
   EMAIL_KEY = 'todo-user-email';
   TOKEN_KEY = 'todo-user-x-auth-token';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   getEmail() {
     return localStorage.getItem(this.EMAIL_KEY);
@@ -20,7 +21,7 @@ export class AuthService {
   }
 
   hasAuth() {
-    const email   = this.getEmail();
+    const email = this.getEmail();
     const token = this.getToken();
 
     return email !== null && token !== null;
@@ -32,15 +33,16 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    return this
-      .http
-      .post(`${environment.backendUrl}/users/login`, { email, password })
-      .map(data => {
-
+    return this.http
+      .post(`${environment.backendUrl}/users/login`, { email, password }, { observe: 'response' })
+      .do(response => {
+        this.storeCredentials(email, response.body['token']);
+        return response;
       });
   }
 
   logout() {
     localStorage.clear();
+    this.router.navigate(['/login']);
   }
 }

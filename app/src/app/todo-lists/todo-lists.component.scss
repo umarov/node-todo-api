@@ -2,3 +2,7 @@
 @import '~@angular/material/theming';
 // Import your custom theme
 @import 'src/theme.scss';
+
+md-card {
+  margin: 16px 8px;
+}

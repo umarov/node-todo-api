@@ -11,7 +11,7 @@ const postUser = async (req, res) => {
   try {
     user = await user.save();
     const token = await user.generateAuthToken();
-    res.header('x-auth', token).send({ user });
+    res.header('X-AUTH', token).send({ user });
   } catch (e) {
     res.status(400).send(e);
   }
@@ -23,7 +23,7 @@ const loginUser = async (req, res) => {
   try {
     const user = await User.findByCredentials(email, password);
     const token = await user.generateAuthToken();
-    res.header('x-auth', token).send({ user });
+    res.header('X-AUTH', token).send({ user, token });
   } catch(err) {
     res.status(401).send(err);
   }

@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { AuthService } from './login/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,8 +9,12 @@ import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
 
+  constructor(public authService: AuthService) { }
 
   ngOnInit(): void {
+  }
 
+  logout() {
+    this.authService.logout();
   }
 }

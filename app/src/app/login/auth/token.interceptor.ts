@@ -13,12 +13,14 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const token = localStorage.getItem('todo-user-x-auth-token');
+    console.log(token);
+    if (token) {
+      const authReq = request.clone({setHeaders: {'authorization': token}});
+      return next.handle(authReq);
+    } else {
+      return next.handle(request);
+    }
 
-    request = request.clone({
-      setHeaders: {
-        'X-Auth': localStorage.getItem('todo-user-x-auth-token')
-      }
-    });
-    return next.handle(request);
   }
 }

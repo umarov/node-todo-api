@@ -4,6 +4,8 @@
   <!-- This fills the remaining space of the current row -->
   <span class="fill-remaining-space"></span>
 
+  <button md-button color="white" (click)="logout()" *ngIf="authService.hasAuth()">Logout</button>
+
 </md-toolbar>
 
 <router-outlet></router-outlet>
