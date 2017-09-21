@@ -264,7 +264,7 @@ describe('POST /users', () => {
       .send(data)
       .expect(200)
       .expect(({ body, headers }) => {
-        expect(headers['X-AUTH']).toBeDefined()
+        expect(headers['x-auth']).toBeDefined()
         expect(body.user._id).toBeDefined();
         expect(body.user.email).toBe(data.email);
       })
