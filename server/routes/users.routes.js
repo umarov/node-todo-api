@@ -16,7 +16,18 @@ const postUser = async (req, res) => {
     if (e.code === 11000) {
       res.status(400).send({ message: 'Account already exists' });
     } else {
-      res.status(400).send({ message: 'Something went wrong' });
+      const { password, email } = e.errors;
+      if (password) {
+        const minLengthError  = 'Your password needs to be minimum 8 characters';
+        const noPasswordError = 'Password must be provided';
+        const message         = password.kind === 'minlength' ? minLengthError: noPasswordError;
+
+        res.status(400).send({ message });
+      } else if (email) {
+        res.status(400).send({ message: email.message });
+      } else {
+        res.status(400).send({ message: 'Something went wrong' });
+      }
     }
   }
 };
@@ -25,11 +36,12 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findByCredentials(email, password);
+    const user  = await User.findByCredentials(email, password);
     const token = await user.generateAuthToken();
+
     res.header('X-AUTH', token).send({ user, token });
   } catch(err) {
-    res.status(401).send(err);
+    res.status(401).send({ message: err.message });
   }
 };
 

@@ -62,12 +62,12 @@ UserSchema.statics.findByCredentials = async function(email, password) {
   const User = this;
   const user = await User.findOne({ email });
 
-  if (!user) { throw new Error('User was not found'); }
+  if (!user) { throw new Error('An account was not found with that email.'); }
 
   if (await user.matchingPassword(password)) {
     return user;
   } else {
-    throw new Error('Password did not match');
+    throw new Error('The password did not match.');
   }
 };
 

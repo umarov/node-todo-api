@@ -2,35 +2,35 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {
-  MdButtonModule,
-  MdCheckboxModule,
-  MdToolbarModule,
-  MdListModule,
-  MdCardModule,
-  MdInputModule,
-  MdSnackBarModule
+  MatButtonModule,
+  MatCheckboxModule,
+  MatToolbarModule,
+  MatListModule,
+  MatCardModule,
+  MatInputModule,
+  MatSnackBarModule
 } from '@angular/material';
 
 
 @NgModule({
   imports: [
     CommonModule,
-    MdButtonModule,
-    MdCheckboxModule,
-    MdToolbarModule,
-    MdListModule,
-    MdCardModule,
-    MdInputModule,
-    MdSnackBarModule
+    MatButtonModule,
+    MatCheckboxModule,
+    MatToolbarModule,
+    MatListModule,
+    MatCardModule,
+    MatInputModule,
+    MatSnackBarModule
   ],
   exports: [
-    MdButtonModule,
-    MdCheckboxModule,
-    MdToolbarModule,
-    MdListModule,
-    MdCardModule,
-    MdInputModule,
-    MdSnackBarModule
+    MatButtonModule,
+    MatCheckboxModule,
+    MatToolbarModule,
+    MatListModule,
+    MatCardModule,
+    MatInputModule,
+    MatSnackBarModule
   ]
 })
 export class UiMaterialModule { }

@@ -28,7 +28,7 @@ function _userRoutes(app) {
   app.post('/users', postUser);
   app.post('/users/login', loginUser);
   app.get('/users/me', authenticate, getMe);
-  app.get('/users/:id', showUser);
+  app.get('/users/:id', authenticate, showUser);
 }
 
 function setUpRoutes(app) {

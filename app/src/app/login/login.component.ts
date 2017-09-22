@@ -44,7 +44,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.router.navigate(['/']);
       },
-      console.error
+      response => {
+        this.snackBar.open(response.error.message, 'Dismiss', {
+          duration: 5000
+        });
+      }
     );
   }
 
@@ -57,15 +61,18 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.signUpSubscription.unsubscribe();
     this.signUpSubscription = this.authService
       .signup(this.user)
-      .subscribe(() => {
-        this.user.password = '';
-        this.toggleLoginSignUp();
-      },
-    ({ error }) => {
-      this.snackBarRef = this.snackBar.open(error.message, 'Dismiss', {
-        duration: 5000
-      });
-    });
+      .subscribe(
+        () => {
+          this.user.password = '';
+          this.toggleLoginSignUp();
+        },
+        response => {
+          console.log(response);
+          this.snackBar.open(response.error.message, 'Dismiss', {
+            duration: 5000
+          });
+        }
+      );
   }
 
 }
