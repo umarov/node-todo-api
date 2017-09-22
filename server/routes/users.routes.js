@@ -13,7 +13,11 @@ const postUser = async (req, res) => {
     const token = await user.generateAuthToken();
     res.header('X-AUTH', token).send({ user });
   } catch (e) {
-    res.status(400).send(e);
+    if (e.code === 11000) {
+      res.status(400).send({ message: 'Account already exists' });
+    } else {
+      res.status(400).send({ message: 'Something went wrong' });
+    }
   }
 };
 

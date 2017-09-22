@@ -1,1 +1,31 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>TodoApp</title><base href="./"><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"><link rel="manifest" href="manifest.json"><link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5"><meta name="theme-color" content="	#8ee5ee"><meta name="viewport" content="width=device-width,initial-scale=1"><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono" rel="stylesheet"><link rel="icon" type="image/x-icon" href="favicon.ico"><link href="styles.84dd1b976029e20870d4.bundle.css" rel="stylesheet"/></head><body><app-root><p>Prepare to get productive!</p></app-root><script type="text/javascript" src="inline.d3084076ce455fd2c55e.bundle.js"></script><script type="text/javascript" src="polyfills.c9b879328f3396b2bbe8.bundle.js"></script><script type="text/javascript" src="sw-register.6819cd2c5fa25470ecf2.bundle.js"></script><script type="text/javascript" src="main.1b3771df89b26cf006e2.bundle.js"></script></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>TodoApp</title><base href="./"><style>body {
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+    .loading-app-shell {
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      background: #2196f3;
+    }
+
+    @keyframes unblur {
+      from {
+        filter: blur(20px);
+      }
+
+      to {
+        filter: blur(0px);
+      }
+    }
+
+    .loading-app-shell__text {
+      color: white;
+      flex: 1;
+      text-align: center;
+      font-size: 10vh;
+      font-style: italic;
+      animation: unblur 300ms ease-in;
+    }</style><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"><link rel="manifest" href="manifest.json"><link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5"><meta name="theme-color" content="	#8ee5ee"><meta name="viewport" content="width=device-width,initial-scale=1"><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono" rel="stylesheet"><link rel="icon" type="image/x-icon" href="favicon.ico"><link href="styles.84dd1b976029e20870d4.bundle.css" rel="stylesheet"/></head><body><app-root><div class="loading-app-shell"><p class="loading-app-shell__text">Node Todo App</p></div></app-root><script type="text/javascript" src="inline.e8dd9967c4eef0a27501.bundle.js"></script><script type="text/javascript" src="polyfills.c9b879328f3396b2bbe8.bundle.js"></script><script type="text/javascript" src="sw-register.6819cd2c5fa25470ecf2.bundle.js"></script><script type="text/javascript" src="main.87c29de451549aee46c1.bundle.js"></script></body></html>

@@ -5,6 +5,42 @@
   <title>TodoApp</title>
   <base href="node-todo-api">
 
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+    .loading-app-shell {
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      background: #2196f3;
+    }
+
+    @keyframes unblur {
+      from {
+        filter: blur(20px);
+      }
+
+      to {
+        filter: blur(0px);
+      }
+    }
+
+    .loading-app-shell__text {
+      color: white;
+      flex: 1;
+      text-align: center;
+      font-size: 10vh;
+      font-style: italic;
+      animation: unblur 300ms ease-in;
+    }
+
+
+  </style>
+
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -18,7 +54,9 @@
 </head>
 <body>
   <app-root>
-    <p>Prepare to get productive!</p>
+    <div class="loading-app-shell">
+      <p class="loading-app-shell__text">Node Todo App</p>
+    </div>
   </app-root>
 </body>
 </html>
