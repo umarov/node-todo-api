@@ -3,7 +3,7 @@
     "short_name": "Todo App",
     "theme_color": "#8ee5ee",
     "background_color": "#e2e04f",
-    "start_url": "/node-todo-api",
+    "start_url": "/node-todo-api/",
     "display": "standalone",
     "orientation": "portrait",
     "icons": [
