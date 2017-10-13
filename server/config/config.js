@@ -10,7 +10,7 @@ switch(env) {
     break;
   }
   case 'test': {
-    process.env.PORT        = 3000;
+    process.env.PORT        = 9999;
     process.env.MONGODB_URI = 'mongodb://localhost:27017/TodoAppTest';
     break;
   }
