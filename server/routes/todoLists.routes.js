@@ -1,30 +1,30 @@
 const { ObjectId } = require('mongodb');
 const _            = require('lodash');
 
-const { Todo } = require('../models/todo');
+const { TodoList } = require('../models/todoList');
 
-const getTodos = async (req, res) => {
+const getTodoLists = async (req, res) => {
   try {
-    const todos = await Todo.find();
+    const todoLists = await TodoList.find();
 
-    res.send({ todos });
+    res.send({ todoLists });
   } catch(err) {
     res.status(400).send(err);
   }
 }
 
-const postTodo = async (req, res) => {
-  const todo = new Todo(req.body);
+const postTodoList = async (req, res) => {
+  const todoList = new TodoList(req.body);
   try {
-    await todo.save();
+    await todoList.save();
 
-    res.send({ todo });
+    res.send({ todoList });
   } catch (e) {
     res.status(400).send(e);
   }
 }
 
-const deleteTodo = async (req, res) => {
+const deleteTodoList = async (req, res) => {
   try {
     const id = req.params.id;
 
@@ -32,10 +32,10 @@ const deleteTodo = async (req, res) => {
       return res.status(404).send();
     }
 
-    const todo = await Todo.findByIdAndRemove(id);
+    const todoList = await TodoList.findByIdAndRemove(id);
 
-    if (todo) {
-      res.send({ todo });
+    if (todoList) {
+      res.send({ todoList });
     } else {
       res.status(404).send();
     }
@@ -44,7 +44,7 @@ const deleteTodo = async (req, res) => {
   }
 }
 
-const showTodo = async (req, res) => {
+const showTodoList = async (req, res) => {
   try {
     const id = req.params.id;
 
@@ -52,10 +52,10 @@ const showTodo = async (req, res) => {
       return res.status(404).send();
     }
 
-    const todo = await Todo.findById(id);
+    const todoList = await TodoList.findById(id);
 
-    if (todo) {
-      res.send({ todo });
+    if (todoList) {
+      res.send({ todoList });
     } else {
       res.status(404).send();
     }
@@ -64,10 +64,10 @@ const showTodo = async (req, res) => {
   }
 }
 
-const updateTodo = async (req, res) => {
+const updateTodoList = async (req, res) => {
   try {
     const id   = req.params.id;
-    const body = _.pick(req.body, ['text', 'completed']);
+    const body = _.pick(req.body, ['title', 'completed', 'color']);
 
     if (!ObjectId.isValid(id)) {
       return res.status(404).send();
@@ -80,14 +80,14 @@ const updateTodo = async (req, res) => {
       body.completedAt = null;
     }
 
-    const todo = await Todo.findByIdAndUpdate(
+    const todoList = await TodoList.findByIdAndUpdate(
       id,
       { $set: body },
       { new: true }
     );
 
-    if (todo) {
-      res.status(200).send({ todo });
+    if (todoList) {
+      res.status(200).send({ todoList });
     } else {
       res.status(404).send();
     }
@@ -97,9 +97,9 @@ const updateTodo = async (req, res) => {
 }
 
 module.exports = {
-  getTodos,
-  postTodo,
-  deleteTodo,
-  showTodo,
-  updateTodo
+  getTodoLists,
+  postTodoList,
+  deleteTodoList,
+  showTodoList,
+  updateTodoList
 }
