@@ -10,23 +10,25 @@ import {
 import { AppComponent } from './app.component';
 import { UiMaterialModule } from './ui-material/ui-material.module';
 import { TodoListsService } from './todo-lists/todo-lists.service';
-import { TodosComponent } from './todos/todos.component';
+import { TodoItemsComponent } from './todoItems/todoItems.component';
 import { TodoListsComponent } from './todo-lists/todo-lists.component';
-import { TodosService } from './todos/todos.service';
+import { TodoItemsService } from './todoItems/todoItems.service';
 import { AppRoutesModule } from './app-routes/app-routes.module';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { TokenInterceptor } from './login/auth/token.interceptor';
 import { AuthService } from './login/auth/auth.service';
 import { AuthInterceptor } from './login/auth/auth.interceptor';
+import { TodoListFormComponent } from './todo-list-form/todo-list-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TodosComponent,
+    TodoItemsComponent,
     TodoListsComponent,
     LoginComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    TodoListFormComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +40,7 @@ import { AuthInterceptor } from './login/auth/auth.interceptor';
   ],
   providers: [
     TodoListsService,
-    TodosService,
+    TodoItemsService,
     AuthService,
     {
       provide: HTTP_INTERCEPTORS,

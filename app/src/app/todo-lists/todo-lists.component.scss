@@ -5,4 +5,50 @@
 
 mat-card {
   margin: 16px 8px;
+
+  &.mat-card, &.todo-list-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
 }
+
+app-todo-items {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 2;
+}
+
+.delete-todo-list-button {
+  justify-self: end;
+}
+
+mat-card-actions {
+  grid-row-start: 3;
+  grid-column-start: 1;
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.add-todo-button {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: 25px;
+}
+

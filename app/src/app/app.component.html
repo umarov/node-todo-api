@@ -7,6 +7,6 @@
   <button mat-button color="white" (click)="logout()" *ngIf="authService.hasAuth()">Logout</button>
 
 </mat-toolbar>
-
-<router-outlet></router-outlet>
-<!-- <app-todo-lists></app-todo-lists> -->
+<main>
+  <router-outlet></router-outlet>
+</main>

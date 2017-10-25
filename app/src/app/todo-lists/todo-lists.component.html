@@ -1,30 +1,33 @@
-<mat-card *ngFor="let todoList of todoLists | async">
-  <mat-card-title>
-    {{ todoList.title }}
-  </mat-card-title>
+<div *ngIf="todoLists | async; let todoLists; else loading">
+  <div *ngIf="todoLists.length > 0; else noTodoLists">
+    <mat-card class="todo-list-card" *ngFor="let todoList of todoLists" [ngStyle]="{ 'background-color': todoList.color}">
+      <mat-card-title>
+        {{ todoList.title }}
+      </mat-card-title>
 
-  <app-todos [todoListId]="todoList._id"></app-todos>
-</mat-card>
+      <button mat-icon-button color="warn" class="delete-todo-list-button" (click)="delete(todoList)">
+        <mat-icon aria-label="Example icon-button with a heart icon">close</mat-icon>
+      </button>
+      <app-todo-items [todoListId]="todoList._id"></app-todo-items>
+      <!-- <mat-card-actions>
+        <button mat-raised-button class="add-todo-items-button">Add Items</button>
+      </mat-card-actions> -->
+    </mat-card>
+  </div>
+
+  <ng-template #noTodoLists>
+    <p class="mat-subheading-1">
+      No Todo lists are left 🙁, go ahead and create one 👍
+    </p>
+  </ng-template>
+
+</div>
+
+<ng-template #loading>Loading Todo lists...</ng-template>
 
 
-<mat-card>
-  <mat-card-title>
-    Image to-do list here with todo items
-  </mat-card-title>
-
-  <mat-card-actions>
-    <button mat-button color="primary">Some action</button>
-    <button mat-button color="warn">Another action</button>
-  </mat-card-actions>
-</mat-card>
-
-<mat-card >
-  <mat-card-title>
-    Another one
-  </mat-card-title>
-
-  <mat-card-actions>
-    <button mat-button color="primary">Some action</button>
-    <button mat-button color="warn">Another action</button>
-  </mat-card-actions>
-</mat-card>
+<div>
+  <button (click)="createTodoList()" class="add-todo-button" mat-fab color="primary">
+    <mat-icon aria-label="Add todo icon">add</mat-icon>
+  </button>
+</div>

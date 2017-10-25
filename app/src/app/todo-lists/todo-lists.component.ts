@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { TodoListsService } from './todo-lists.service';
-import { TodoLists } from './todo-lists';
+import { TodoList } from './todo-list';
 import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-todo-lists',
@@ -10,13 +12,30 @@ import { Observable } from 'rxjs/Observable';
   encapsulation: ViewEncapsulation.Native
 })
 export class TodoListsComponent implements OnInit {
-  todoLists: Observable<TodoLists[]>;
+  todoLists: Observable<TodoList[]>;
 
-  constructor(private todoListsService: TodoListsService) {
-    // this.todoLists = this.todoListsService.getTodoLists();
+  constructor(
+    private todoListsService: TodoListsService,
+    private router: Router
+  ) {
+    this.todoLists = this.todoListsService.getTodoLists();
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  createTodoList() {
+    this.router.navigate(['/create-todo-lists']);
   }
 
+  delete(todoList) {
+    this
+      .todoListsService
+      .deleteTodoList(todoList)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.todoLists = this.todoListsService.getTodoLists();
+      }, err => {
+        console.error(err);
+      });
+  }
 }
