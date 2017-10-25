@@ -1,98 +1,98 @@
-const { ObjectId } = require('mongodb');
-const _            = require('lodash');
+const { ObjectId } = require('mongodb')
+const _ = require('lodash')
 
-const { TodoList } = require('../models/todoList');
+const { TodoList } = require('../models/todoList')
 
 const getTodoLists = async (req, res) => {
   try {
-    const todoLists = await TodoList.find();
+    const todoLists = await TodoList.find()
 
-    res.send({ todoLists });
-  } catch(err) {
-    res.status(400).send(err);
+    res.send({ todoLists })
+  } catch (err) {
+    res.status(400).send(err)
   }
 }
 
 const postTodoList = async (req, res) => {
-  const todoList = new TodoList(req.body);
+  const todoList = new TodoList(req.body)
   try {
-    await todoList.save();
+    await todoList.save()
 
-    res.send({ todoList });
+    res.send({ todoList })
   } catch (e) {
-    res.status(400).send(e);
+    res.status(400).send(e)
   }
 }
 
 const deleteTodoList = async (req, res) => {
   try {
-    const id = req.params.id;
+    const { todoListId } = req.params
 
-    if (!ObjectId.isValid(id)) {
-      return res.status(404).send();
+    if (!ObjectId.isValid(todoListId)) {
+      return res.status(404).send()
     }
 
-    const todoList = await TodoList.findByIdAndRemove(id);
+    const todoList = await TodoList.findByIdAndRemove(todoListId)
 
     if (todoList) {
-      res.send({ todoList });
+      res.send({ todoList })
     } else {
-      res.status(404).send();
+      res.status(404).send()
     }
-  } catch(_) {
-    res.status(400).send();
+  } catch (_) {
+    res.status(400).send()
   }
 }
 
 const showTodoList = async (req, res) => {
   try {
-    const id = req.params.id;
+    const { todoListId } = req.params
 
-    if (!ObjectId.isValid(id)) {
-      return res.status(404).send();
+    if (!ObjectId.isValid(todoListId)) {
+      return res.status(404).send()
     }
 
-    const todoList = await TodoList.findById(id);
+    const todoList = await TodoList.findById(todoListId)
 
     if (todoList) {
-      res.send({ todoList });
+      res.send({ todoList })
     } else {
-      res.status(404).send();
+      res.status(404).send()
     }
-  } catch(err) {
-    res.status(404).send();
+  } catch (err) {
+    res.status(404).send()
   }
 }
 
 const updateTodoList = async (req, res) => {
   try {
-    const id   = req.params.id;
-    const body = _.pick(req.body, ['title', 'completed', 'color']);
+    const { todoListId } = req.params
+    const body = _.pick(req.body, ['title', 'completed', 'color'])
 
-    if (!ObjectId.isValid(id)) {
-      return res.status(404).send();
+    if (!ObjectId.isValid(todoListId)) {
+      return res.status(404).send()
     }
 
     if (_.isBoolean(body.completed) && body.completed) {
-      body.completedAt = new Date().getTime();
+      body.completedAt = new Date().getTime()
     } else {
-      body.completed   = false;
-      body.completedAt = null;
+      body.completed = false
+      body.completedAt = null
     }
 
     const todoList = await TodoList.findByIdAndUpdate(
-      id,
+      todoListId,
       { $set: body },
       { new: true }
-    );
+    )
 
     if (todoList) {
-      res.status(200).send({ todoList });
+      res.status(200).send({ todoList })
     } else {
-      res.status(404).send();
+      res.status(404).send()
     }
-  } catch(err) {
-    res.status(400).send();
+  } catch (err) {
+    res.status(400).send()
   }
 }
 

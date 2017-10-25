@@ -15,7 +15,6 @@ const getTodoItems = async (req, res) => {
 
 const postTodoItem = async (req, res) => {
   try {
-    console.log(req.body);
     req.todoList.todoItems.push(req.body)
     const todoList = await req.todoList.save()
     const todoItem = todoList.todoItems[_.findLastIndex(todoList.todoItems)]
@@ -27,15 +26,15 @@ const postTodoItem = async (req, res) => {
 
 const deleteTodoItem = async (req, res) => {
   try {
-    const todoItemId = req.params.todoItemId
+    const { todoItemId } = req.params
 
     if (!ObjectId.isValid(todoItemId)) {
       return res.status(404).send()
     }
 
-    const todoItem = await req.todoList.todoItems.id(todoItemId).remove()
-
+    const todoItem = await req.todoList.todoItems.id(todoItemId)
     if (todoItem) {
+      await todoItem.remove()
       res.send({ todoItem })
     } else {
       res.status(404).send()
@@ -47,7 +46,7 @@ const deleteTodoItem = async (req, res) => {
 
 const showTodoItem = async (req, res) => {
   try {
-    const todoItemId = req.params.todoItemId
+    const { todoItemId } = req.params
 
     if (!ObjectId.isValid(todoItemId)) {
       return res.status(404).send()
@@ -67,7 +66,7 @@ const showTodoItem = async (req, res) => {
 
 const updateTodoItem = async (req, res) => {
   try {
-    const todoItemId = req.params.todoItemId
+    const { todoItemId } = req.params
     const body = _.pick(req.body, ['text', 'completed'])
 
     if (!ObjectId.isValid(todoItemId)) {
@@ -82,10 +81,10 @@ const updateTodoItem = async (req, res) => {
     }
 
     const todoItem = await req.todoList.todoItems.id(todoItemId)
-    todoItem.set(body);
-
-    await req.todoList.save()
     if (todoItem) {
+      todoItem.set(body)
+      await req.todoList.save()
+
       res.status(200).send({ todoItem })
     } else {
       res.status(404).send()

@@ -1,230 +1,227 @@
-// const expect = require('expect');
-// const request = require('supertest');
-// const { ObjectId } = require('mongodb');
+const expect = require('expect')
+const request = require('supertest')
+const { ObjectId } = require('mongodb')
 
-// const { app } = require('../../server');
-// const { TodoItem } = require('./../../models/todoItem');
-// const { TodoList } = require('./../../models/todoList');
+const { app } = require('../../server')
+const { TodoList } = require('./../../models/todoList')
 
-// const {
-//   todoItems,
-//   populateTodoItems,
-// } = require('../seed/seed');
+const { populateTodoItems } = require('../seed/seed')
 
-// beforeEach(populateTodoItems);
+beforeEach(populateTodoItems)
 
-// describe('POST /todoItems', () => {
-//   it('should create a new todo', (done) => {
-//     const text = 'Test todo text';
+describe('POST /todoLists', () => {
+  it('should create a new todo list', done => {
+    const title = 'Test todo title'
 
-//     request(app)
-//       .post('/todoItems')
-//       .send({ text, todoListId: new ObjectId() })
-//       .expect(200)
-//       .expect((res) => expect(res.body.todoItem.text).toBe(text))
-//       .end(async (err) => {
-//         if (err) { return done(err); }
+    request(app)
+      .post('/todoLists')
+      .send({ title })
+      .expect(200)
+      .expect(res => expect(res.body.todoList.title).toBe(title))
+      .end(async err => {
+        if (err) {
+          return done(err)
+        }
 
-//         try {
-//           const todoItems = await TodoItem.find({ text })
-//           expect(todoItems.length).toBe(1);
-//           expect(todoItems[0].text).toBe(text);
-//           done();
-//         } catch(err) {
-//           done(err);
-//         }
-//       });
-//   });
+        try {
+          const todoLists = await TodoList.find({ title })
+          expect(todoLists.length).toBe(1)
+          expect(todoLists[0].title).toBe(title)
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+  })
 
-//   it('should not create todo item with invalid body data', (done) => {
-//     const text = '';
+  it('should not create todo List with invalid body data', done => {
+    const title = ''
 
-//     request(app)
-//       .post('/todoItems')
-//       .send({ text })
-//       .expect(400)
-//       .end(async (err) => {
-//         if (err) { return done(err) }
+    request(app)
+      .post('/todoLists')
+      .send({ title })
+      .expect(400)
+      .end(async err => {
+        if (err) {
+          return done(err)
+        }
 
-//         try {
-//           const todoItems = await TodoItem.find();
-//           expect(todoItems.length).toBe(2);
-//           done();
-//         } catch(err) {
-//           done(err);
-//         }
-//       });
-//   });
-// });
+        try {
+          const todoLists = await TodoList.find()
+          expect(todoLists.length).toBe(1)
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+  })
+})
 
-// describe('GET /todoItems', () => {
-//   it('should get all todoItems', (done) => {
-//     request(app)
-//       .get('/todoItems')
-//       .expect(200)
-//       .expect(res => {
-//         expect(res.body.todoItems.length).toBe(todoItems.length);
-//       })
-//       .end(done);
-//   });
-// });
+describe('GET /todoLists', () => {
+  it('should get all todoLists', done => {
+    TodoList.find()
+      .then(todoLists => {
+        request(app)
+          .get('/todoLists')
+          .expect(200)
+          .expect(res => {
+            expect(res.body.todoLists.length).toBe(todoLists.length)
+          })
+          .end(done)
+      })
+  })
+})
 
-// describe('GET /todoItems/:todoItemId', () => {
-//   it('should get a todo item with provided ID', (done) => {
-//     TodoItem
-//       .find()
-//       .then(([todoItem, ]) => {
-//         request(app)
-//           .get(`/todoItems/${todoItem._id}`)
-//           .expect(200)
-//           .expect(res => {
-//             expect(res.body.todoItem._id).toBe(todoItem._id.toString());
-//             expect(res.body.todoItem.text).toBe(todoItem.text);
-//           })
-//           .end(done);
-//       })
-//       .catch(done);
-//   });
+describe('GET /todoLists/:todoListId', () => {
+  it('should get a todo List with provided ID', done => {
+    TodoList.find()
+      .then(([todoList]) => {
+        request(app)
+          .get(`/todoLists/${todoList._id}`)
+          .expect(200)
+          .expect(res => {
+            expect(res.body.todoList._id).toBe(todoList._id.toString())
+            expect(res.body.todoList.title).toBe(todoList.title)
+          })
+          .end(done)
+      })
+      .catch(done)
+  })
 
-//   it('should return a 404 with a non-ObjectId', (done) => {
-//     request(app)
-//       .get(`/todoItems/23123`)
-//       .expect(404)
-//       .end(done);
-//   });
+  it('should return a 404 with a non-ObjectId', done => {
+    request(app)
+      .get(`/todoLists/23123`)
+      .expect(404)
+      .end(done)
+  })
 
-//   it('should return a 404 if a todo item was not found', (done) => {
-//     request(app)
-//       .get(`/todoItems/${new ObjectId().toHexString()}`)
-//       .expect(404)
-//       .end(done);
-//   });
-// });
+  it('should return a 404 if a todo List was not found', done => {
+    request(app)
+      .get(`/todoLists/${new ObjectId().toHexString()}`)
+      .expect(404)
+      .end(done)
+  })
+})
 
-// describe('DELETE /todoItems/:todoItemId', () => {
-//   it('should delete a todo item with provided ID', (done) => {
-//     TodoItem
-//       .find()
-//       .then(([todoItem, ]) => {
-//         request(app)
-//           .delete(`/todoItems/${todoItem._id}`)
-//           .expect(200)
-//           .expect(res => {
-//             expect(res.body.todoItem._id).toBe(todoItem._id.toString());
-//             expect(res.body.todoItem.text).toBe(todoItem.text);
-//           })
-//           .end(async (err, res) => {
-//             if (err) { return done(err); }
+describe('DELETE /todoLists/:todoListId', () => {
+  it('should delete a todo List with provided ID', done => {
+    TodoList.find()
+      .then(([todoList]) => {
+        request(app)
+          .delete(`/todoLists/${todoList._id}`)
+          .expect(200)
+          .expect(res => {
+            expect(res.body.todoList._id).toBe(todoList._id.toString())
+            expect(res.body.todoList.title).toBe(todoList.title)
+          })
+          .end(async (err, res) => {
+            if (err) {
+              return done(err)
+            }
 
-//             try {
-//               const todoItem = await TodoItem.findById(res.body.todoItem._id);
-//               expect(todoItem).toBe(null);
-//               done();
-//             } catch(err) {
-//               done(err);
-//             }
-//           });
-//       })
-//       .catch(done);
-//   });
+            try {
+              const todoList = await TodoList.findById(res.body.todoList._id)
+              expect(todoList).toBe(null)
+              done()
+            } catch (err) {
+              done(err)
+            }
+          })
+      })
+      .catch(done)
+  })
 
-//   it('should return a 404 with a non-ObjectId', (done) => {
-//     request(app)
-//       .delete(`/todoItems/23123`)
-//       .expect(404)
-//       .end(done);
-//   });
+  it('should return a 404 with a non-ObjectId', done => {
+    request(app)
+      .delete(`/todoLists/23123`)
+      .expect(404)
+      .end(done)
+  })
 
-//   it('should return a 404 if a todo item was not found', (done) => {
-//     request(app)
-//       .delete(`/todoItems/${new ObjectId().toHexString()}`)
-//       .expect(404)
-//       .end(done);
-//   });
-// });
+  it('should return a 404 if a todo List was not found', done => {
+    request(app)
+      .delete(`/todoLists/${new ObjectId().toHexString()}`)
+      .expect(404)
+      .end(done)
+  })
+})
 
-// describe('PATCH /todoItems/:todoItemId', () => {
-//   it('should update the text of a todo item with provided ID', (done) => {
-//     const text = "This test should pass"
-//     TodoItem
-//       .find()
-//       .then(([todoItem, ]) => {
-//         request(app)
-//           .patch(`/todoItems/${todoItem._id}`)
-//           .send({ text })
-//           .expect(200)
-//           .expect(res => {
-//             expect(res.body.todoItem._id).toBe(todoItem._id.toString());
-//             expect(res.body.todoItem.text).not.toBe(todoItem.text);
-//           })
-//           .end(done);
-//       })
-//       .catch(done);
-//   });
+describe('PATCH /todoLists/:todoListId', () => {
+  it('should update the title of a todo List with provided ID', done => {
+    const title = 'This test should pass'
+    TodoList.find()
+      .then(([todoList]) => {
+        request(app)
+          .patch(`/todoLists/${todoList._id}`)
+          .send({ title })
+          .expect(200)
+          .expect(res => {
+            expect(res.body.todoList._id).toBe(todoList._id.toString())
+            expect(res.body.todoList.title).not.toBe(todoList.title)
+          })
+          .end(done)
+      })
+      .catch(done)
+  })
 
-//   it('should update the completed of a todo item to true with updated completedAt with provided ID', (done) => {
-//     TodoItem
-//       .find()
-//       .then(([todoItem, ]) => {
-//         const completed = !todoItem.completed
-//         request(app)
-//           .patch(`/todoItems/${todoItem._id}`)
-//           .send({ completed })
-//           .expect(200)
-//           .expect(res => {
-//             expect(res.body.todoItem._id).toBe(todoItem._id.toString());
-//             expect(res.body.todoItem.completed).not.toBe(todoItem.completed);
-//             expect(res.body.todoItem.completed).toBeTruthy();
-//             expect(res.body.todoItem.completedAt).not.toBe(null);
+  it('should update the completed of a todo List to true with updated completedAt with provided ID', done => {
+    TodoList.find()
+      .then(([todoList]) => {
+        const completed = !todoList.completed
+        request(app)
+          .patch(`/todoLists/${todoList._id}`)
+          .send({ completed })
+          .expect(200)
+          .expect(res => {
+            expect(res.body.todoList._id).toBe(todoList._id.toString())
+            expect(res.body.todoList.completed).not.toBe(todoList.completed)
+            expect(res.body.todoList.completed).toBeTruthy()
+            expect(res.body.todoList.completedAt).not.toBe(null)
+          })
+          .end(done)
+      })
+      .catch(done)
+  })
 
-//           })
-//           .end(done);
-//       })
-//       .catch(done);
-//   });
+  it('should update the completed of a todo List to false with a null completedAt with provided ID', done => {
+    TodoList.find()
+      .then(([todoList]) => {
+        const completed = !todoList.completed
+        request(app)
+          .patch(`/todoLists/${todoList._id}`)
+          .send({ completed })
+          .end(err => {
+            if (err) {
+              done(err)
+            }
 
-//   it('should update the completed of a todo item to false with a null completedAt with provided ID', (done) => {
-//     TodoItem
-//       .find()
-//       .then(([todoItem, ]) => {
-//         const completed = !todoItem.completed
-//         request(app)
-//           .patch(`/todoItems/${todoItem._id}`)
-//           .send({ completed })
-//           .end((err) => {
-//             if (err) { done(err) }
+            request(app)
+              .patch(`/todoLists/${todoList._id}`)
+              .send({ completed: !completed })
+              .expect(200)
+              .expect(res => {
+                expect(res.body.todoList._id).toBe(todoList._id.toString())
+                expect(res.body.todoList.completed).toBe(todoList.completed)
+                expect(res.body.todoList.completed).toBeFalsy()
+                expect(res.body.todoList.completedAt).toBe(null)
+              })
+              .end(done)
+          })
+      })
+      .catch(done)
+  })
 
-//             request(app)
-//               .patch(`/todoItems/${todoItem._id}`)
-//               .send({ completed: !completed })
-//               .expect(200)
-//               .expect(res => {
-//                 expect(res.body.todoItem._id).toBe(todoItem._id.toString());
-//                 expect(res.body.todoItem.completed).toBe(todoItem.completed);
-//                 expect(res.body.todoItem.completed).toBeFalsy();
-//                 expect(res.body.todoItem.completedAt).toBe(null);
+  it('should return a 404 with a non-ObjectId', done => {
+    request(app)
+      .patch(`/todoLists/23123`)
+      .expect(404)
+      .end(done)
+  })
 
-//               })
-//               .end(done);
-//           });
-//       })
-//       .catch(done);
-//   });
-
-//   it('should return a 404 with a non-ObjectId', (done) => {
-//     request(app)
-//       .patch(`/todoItems/23123`)
-//       .expect(404)
-//       .end(done);
-//   });
-
-//   it('should return a 404 if a todo item was not found', (done) => {
-//     request(app)
-//       .patch(`/todoItems/${new ObjectId().toHexString()}`)
-//       .expect(404)
-//       .end(done);
-//   });
-// });
-
-
-
+  it('should return a 404 if a todo List was not found', done => {
+    request(app)
+      .patch(`/todoLists/${new ObjectId().toHexString()}`)
+      .expect(404)
+      .end(done)
+  })
+})
