@@ -6,9 +6,11 @@ import {
   MatCheckboxModule,
   MatToolbarModule,
   MatListModule,
+  MatIconModule,
   MatCardModule,
   MatInputModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatSelectModule
 } from '@angular/material';
 
 
@@ -18,19 +20,23 @@ import {
     MatButtonModule,
     MatCheckboxModule,
     MatToolbarModule,
+    MatIconModule,
     MatListModule,
     MatCardModule,
     MatInputModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSelectModule
   ],
   exports: [
     MatButtonModule,
     MatCheckboxModule,
     MatToolbarModule,
+    MatIconModule,
     MatListModule,
     MatCardModule,
     MatInputModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSelectModule
   ]
 })
 export class UiMaterialModule { }

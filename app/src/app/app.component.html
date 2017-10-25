@@ -1,12 +1,12 @@
-<md-toolbar color="primary">
+<mat-toolbar color="primary">
   <span>Todo App</span>
 
   <!-- This fills the remaining space of the current row -->
   <span class="fill-remaining-space"></span>
 
-  <button md-button color="white" (click)="logout()" *ngIf="authService.hasAuth()">Logout</button>
+  <button mat-button color="white" (click)="logout()" *ngIf="authService.hasAuth()">Logout</button>
 
-</md-toolbar>
-
-<router-outlet></router-outlet>
-<!-- <app-todo-lists></app-todo-lists> -->
+</mat-toolbar>
+<main>
+  <router-outlet></router-outlet>
+</main>

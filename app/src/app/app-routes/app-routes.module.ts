@@ -4,10 +4,12 @@ import { LoginComponent } from '../login/login.component';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { TodoListsComponent } from '../todo-lists/todo-lists.component';
 import { AuthGuard } from '../login/auth/auth.guard';
+import { TodoListFormComponent } from '../todo-list-form/todo-list-form.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'todo-lists', component: TodoListsComponent, canActivate: [AuthGuard] },
+  { path: 'create-todo-lists', component: TodoListFormComponent, canActivate: [AuthGuard] },
   { path: '',
     redirectTo: '/todo-lists',
     pathMatch: 'full'

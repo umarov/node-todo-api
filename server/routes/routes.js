@@ -1,39 +1,52 @@
-const { authenticate } = require('../middleware/authenticate');
+const { authenticate } = require('../middleware/authenticate')
+const { todoListChecker } = require('../middleware/todoList')
 
 const {
-  getTodos,
-  postTodo,
-  deleteTodo,
-  showTodo,
-  updateTodo
-} = require('./todos.routes');
+  getTodoItems,
+  postTodoItem,
+  deleteTodoItem,
+  showTodoItem,
+  updateTodoItem
+} = require('./todoItems.routes')
 
 const {
-  postUser,
-  loginUser,
-  showUser,
-  getMe
-} = require('./users.routes');
+  getTodoLists,
+  postTodoList,
+  deleteTodoList,
+  showTodoList,
+  updateTodoList
+} = require('./todoLists.routes')
 
+const { postUser, loginUser, showUser, getMe } = require('./users.routes')
 
-function _todoRoutes(app) {
-  app.get('/todos', getTodos);
-  app.post('/todos', postTodo);
-  app.delete('/todos/:id', deleteTodo);
-  app.get('/todos/:id', showTodo);
-  app.patch('/todos/:id', updateTodo);
+function _todoItemRoutes(todoListUrl, app) {
+  app.get(`${todoListUrl}/todoItems`, todoListChecker, getTodoItems)
+  app.post(`${todoListUrl}/todoItems`, todoListChecker, postTodoItem)
+  app.delete(`${todoListUrl}/todoItems/:todoItemId`, todoListChecker, deleteTodoItem)
+  app.get(`${todoListUrl}/todoItems/:todoItemId`, todoListChecker, showTodoItem)
+  app.patch(`${todoListUrl}/todoItems/:todoItemId`, todoListChecker, updateTodoItem)
+}
+
+function _todoListRoutes(app) {
+  app.get('/todoLists', getTodoLists)
+  app.post('/todoLists', postTodoList)
+  app.delete('/todoLists/:todoListId', deleteTodoList)
+  app.get('/todoLists/:todoListId', showTodoList)
+  app.patch('/todoLists/:todoListId', updateTodoList)
+
+  _todoItemRoutes('/todoLists/:todoListId', app)
 }
 
 function _userRoutes(app) {
-  app.post('/users', postUser);
-  app.post('/users/login', loginUser);
-  app.get('/users/me', authenticate, getMe);
-  app.get('/users/:id', authenticate, showUser);
+  app.post('/users', postUser)
+  app.post('/users/login', loginUser)
+  app.get('/users/me', authenticate, getMe)
+  app.get('/users/:id', authenticate, showUser)
 }
 
 function setUpRoutes(app) {
-  _todoRoutes(app);
-  _userRoutes(app);
+  _todoListRoutes(app)
+  _userRoutes(app)
 }
 
 module.exports = {

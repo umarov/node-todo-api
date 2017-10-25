@@ -14,7 +14,6 @@ export class TokenInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('todo-user-x-auth-token');
-    console.log(token);
     if (token) {
       const authReq = request.clone({setHeaders: {'authorization': token}});
       return next.handle(authReq);
