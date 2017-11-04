@@ -8,7 +8,7 @@ mat-card {
 
   &.mat-card, &.todo-list-card {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 4fr 1fr;
     grid-template-rows: 1fr 1fr;
   }
 }
@@ -20,8 +20,19 @@ app-todo-items {
   grid-row-end: 2;
 }
 
+mat-card-title.mat-card-title {
+  font-size: 18px;
+}
+
+.todo-lists-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
 .delete-todo-list-button {
   justify-self: end;
+  margin-right: -15px;
+  margin-top: -15px;
 }
 
 mat-card-actions {
@@ -46,7 +57,7 @@ mat-card-actions {
 }
 
 .add-todo-button {
-  position: absolute;
+  position: fixed;
   right: 0;
   bottom: 0;
   margin: 25px;

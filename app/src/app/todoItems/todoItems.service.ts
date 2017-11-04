@@ -8,13 +8,20 @@ import { TodoItem } from './todoItem';
 
 @Injectable()
 export class TodoItemsService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getTodoItems(todoListId: number): Observable<TodoItem[]> {
-    return this
-      .http
+    return this.http
       .get(`${environment.backendUrl}/todoLists/${todoListId}/todoItems`)
       .pipe(map(body => body['todoItems'] as TodoItem[]));
+  }
+
+  createTodoItem(todoListId: number, todoItem: TodoItem) {
+    return this.http.post(
+      `${environment.backendUrl}/todoLists/${todoListId}/todoItems`,
+      {
+        todoItem
+      }
+    );
   }
 }

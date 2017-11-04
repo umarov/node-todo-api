@@ -1,0 +1,10 @@
+<h1>{{todoList.title}}</h1>
+
+<mat-list>
+  <mat-list-item *ngFor="let todoItem of todoList.todoItems">
+    <mat-checkbox [(ngModel)]="todoItem.completed">{{todoItem.text}}</mat-checkbox>
+  </mat-list-item>
+  <mat-list-item *ngIf="creatingNewItem">
+    <input matInput placeholder="Todo item" autofocus>
+  </mat-list-item>
+</mat-list>

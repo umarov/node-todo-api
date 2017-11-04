@@ -1,5 +1,5 @@
 <div *ngIf="todoLists | async; let todoLists; else loading">
-  <div *ngIf="todoLists.length > 0; else noTodoLists">
+  <div class="todo-lists-content" *ngIf="todoLists.length > 0; else noTodoLists">
     <mat-card class="todo-list-card" *ngFor="let todoList of todoLists" [ngStyle]="{ 'background-color': todoList.color}">
       <mat-card-title>
         {{ todoList.title }}

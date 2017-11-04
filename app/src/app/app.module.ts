@@ -20,6 +20,7 @@ import { TokenInterceptor } from './login/auth/token.interceptor';
 import { AuthService } from './login/auth/auth.service';
 import { AuthInterceptor } from './login/auth/auth.interceptor';
 import { TodoListFormComponent } from './todo-list-form/todo-list-form.component';
+import { TodoListComponent } from './todo-lists/todo-list/todo-list.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { TodoListFormComponent } from './todo-list-form/todo-list-form.component
     TodoListsComponent,
     LoginComponent,
     PageNotFoundComponent,
-    TodoListFormComponent
+    TodoListFormComponent,
+    TodoListComponent
   ],
   imports: [
     BrowserModule,

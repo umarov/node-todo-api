@@ -19,6 +19,13 @@ export class TodoListsService {
       .pipe(map(body => body['todoLists'] as TodoList[]));
   }
 
+  getTodoList(todoListId: number): Observable<TodoList> {
+    return this
+      .http
+      .get(`${environment.backendUrl}/todoLists/${todoListId}`)
+      .pipe(map(body => body['todoList'] as TodoList));
+  }
+
   createTodoList(todoList: TodoList) {
     return this
       .http
