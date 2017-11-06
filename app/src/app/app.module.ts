@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import {
   HttpClientModule,
   HTTP_INTERCEPTORS
@@ -22,6 +24,9 @@ import { AuthInterceptor } from './login/auth/auth.interceptor';
 import { TodoListFormComponent } from './todo-list-form/todo-list-form.component';
 import { TodoListComponent } from './todo-lists/todo-list/todo-list.component';
 
+import { reducer } from './store/reducers/reducer';
+import { TodoListEffects } from './store/effects/effects';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +43,9 @@ import { TodoListComponent } from './todo-lists/todo-list/todo-list.component';
     FormsModule,
     HttpClientModule,
     UiMaterialModule,
-    AppRoutesModule
+    AppRoutesModule,
+    StoreModule.forRoot({ todo: reducer }),
+    EffectsModule.forRoot([ TodoListEffects ])
   ],
   providers: [
     TodoListsService,
