@@ -1,10 +1,18 @@
-<h1>{{todoList.title}}</h1>
-
-<mat-list>
-  <mat-list-item *ngFor="let todoItem of todoList.todoItems">
-    <mat-checkbox [(ngModel)]="todoItem.completed">{{todoItem.text}}</mat-checkbox>
-  </mat-list-item>
-  <mat-list-item *ngIf="creatingNewItem">
-    <input matInput placeholder="Todo item" autofocus>
-  </mat-list-item>
-</mat-list>
+<div *ngIf="todoList | async; let todoList">
+  <h1>{{todoList.title}}</h1>
+  <mat-list>
+    <mat-list-item *ngFor="let todoItem of todoList.todoItems">
+      <mat-checkbox [(ngModel)]="todoItem.completed">{{todoItem.text}}</mat-checkbox>
+    </mat-list-item>
+    <mat-list-item *ngIf="creatingNewItem">
+      <form (ngSubmit)="onTodoItemAdded(todoItemForm)" #todoItemForm="ngForm" class="todo-item-form">
+        <mat-form-field>
+          <input matInput placeholder="Todo item" id="todoItemText" name="todoItemText" [(ngModel)]="todoItemText">
+        </mat-form-field>
+        <button mat-icon-button color="accent">
+          <mat-icon aria-label="Add todo item icon button">add_circle</mat-icon>
+        </button>
+      </form>
+    </mat-list-item>
+  </mat-list>
+</div>

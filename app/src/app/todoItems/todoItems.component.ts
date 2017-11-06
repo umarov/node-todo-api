@@ -17,7 +17,7 @@ import { Observable } from 'rxjs/Observable';
   encapsulation: ViewEncapsulation.Native
 })
 export class TodoItemsComponent implements OnInit, OnDestroy {
-  @Input() todoListId: number;
+  @Input() todoListId: string;
   todoItems: Observable<TodoItem[]>;
 
   constructor(private todoItemsService: TodoItemsService) {}

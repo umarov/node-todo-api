@@ -15,7 +15,7 @@ const getTodoItems = async (req, res) => {
 
 const postTodoItem = async (req, res) => {
   try {
-    req.todoList.todoItems.push(req.body)
+    req.todoList.todoItems.push(req.body.todoItem)
     const todoList = await req.todoList.save()
     const todoItem = todoList.todoItems[_.findLastIndex(todoList.todoItems)]
     res.send({ todoItem })

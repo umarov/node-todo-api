@@ -27,15 +27,21 @@ export class TodoListsComponent implements OnInit {
     this.router.navigate(['/create-todo-lists']);
   }
 
+  showTodoList(todoListId: string) {
+    this.router.navigate(['todo-lists', todoListId]);
+  }
+
   delete(todoList) {
-    this
-      .todoListsService
+    this.todoListsService
       .deleteTodoList(todoList)
       .pipe(take(1))
-      .subscribe(() => {
-        this.todoLists = this.todoListsService.getTodoLists();
-      }, err => {
-        console.error(err);
-      });
+      .subscribe(
+        () => {
+          this.todoLists = this.todoListsService.getTodoLists();
+        },
+        err => {
+          console.error(err);
+        }
+      );
   }
 }

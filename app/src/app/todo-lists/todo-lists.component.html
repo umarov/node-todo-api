@@ -1,6 +1,10 @@
 <div *ngIf="todoLists | async; let todoLists; else loading">
   <div class="todo-lists-content" *ngIf="todoLists.length > 0; else noTodoLists">
-    <mat-card class="todo-list-card" *ngFor="let todoList of todoLists" [ngStyle]="{ 'background-color': todoList.color}">
+    <mat-card
+      class="todo-list-card"
+      *ngFor="let todoList of todoLists"
+      [ngStyle]="{ 'background-color': todoList.color}"
+      (click)="showTodoList(todoList._id)">
       <mat-card-title>
         {{ todoList.title }}
       </mat-card-title>
@@ -9,9 +13,6 @@
         <mat-icon aria-label="Example icon-button with a heart icon">close</mat-icon>
       </button>
       <app-todo-items [todoListId]="todoList._id"></app-todo-items>
-      <!-- <mat-card-actions>
-        <button mat-raised-button class="add-todo-items-button">Add Items</button>
-      </mat-card-actions> -->
     </mat-card>
   </div>
 

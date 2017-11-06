@@ -19,7 +19,7 @@ export class TodoListsService {
       .pipe(map(body => body['todoLists'] as TodoList[]));
   }
 
-  getTodoList(todoListId: number): Observable<TodoList> {
+  getTodoList(todoListId: string): Observable<TodoList> {
     return this
       .http
       .get(`${environment.backendUrl}/todoLists/${todoListId}`)

@@ -10,13 +10,13 @@ import { TodoItem } from './todoItem';
 export class TodoItemsService {
   constructor(private http: HttpClient) {}
 
-  getTodoItems(todoListId: number): Observable<TodoItem[]> {
+  getTodoItems(todoListId: string): Observable<TodoItem[]> {
     return this.http
       .get(`${environment.backendUrl}/todoLists/${todoListId}/todoItems`)
       .pipe(map(body => body['todoItems'] as TodoItem[]));
   }
 
-  createTodoItem(todoListId: number, todoItem: TodoItem) {
+  createTodoItem(todoListId: string, todoItem: TodoItem) {
     return this.http.post(
       `${environment.backendUrl}/todoLists/${todoListId}/todoItems`,
       {
