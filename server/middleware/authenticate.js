@@ -5,7 +5,10 @@ const authenticate = async (req, res, next) => {
 
   try {
     const user = await User.findByToken(token);
-
+    // const all = await User.find({})
+    // console.log(user);
+    // console.log(token);
+    // console.log(all.filter(user => user.tokens.find(({token}) => token === token)));
     if (user) {
       req.user = user;
       req.token = token;

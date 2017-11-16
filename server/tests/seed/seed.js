@@ -1,12 +1,12 @@
-const { ObjectID } = require('mongodb')
-const jwt = require('jsonwebtoken')
+const { ObjectID } = require('mongodb');
+const jwt = require('jsonwebtoken');
 
-const { TodoItem } = require('./../../models/todoItem')
-const { TodoList } = require('./../../models/todoList')
-const { User } = require('./../../models/user')
+const { TodoItem } = require('./../../models/todoItem');
+const { TodoList } = require('./../../models/todoList');
+const { User } = require('./../../models/user');
 
-const userOneId = new ObjectID()
-const userTwoId = new ObjectID()
+const userOneId = new ObjectID();
+const userTwoId = new ObjectID();
 const users = [
   {
     _id: userOneId,
@@ -26,7 +26,7 @@ const users = [
     email: 'test@test.com',
     password: 'userTwoPass'
   }
-]
+];
 
 const todoItems = [
   {
@@ -37,34 +37,27 @@ const todoItems = [
     completed: true,
     completedAt: 333
   }
-]
+];
 
-const populateUsers = done => {
-  User.remove({})
-    .then(() => {
-      const userOne = new User(users[0]).save()
-      const userTwo = new User(users[1]).save()
-      return Promise.all([userOne, userTwo])
-    })
-    .then(() => done())
-}
+const populateUsers = async () => {
+  await User.remove({});
+  const userOne = new User(users[0]);
+  const userTwo = new User(users[1]);
+  await Promise.all([userOne.save(), userTwo.save()]);
+};
 
-const populateTodoItems = done => {
-  TodoList.remove({})
-    .then(() => TodoItem.remove({}))
-    .then(() => new TodoList({ title: 'Todo list', color: 'red' }))
-    .then(todoList => todoList.save())
-    .then(todoList => {
-      todoList.todoItems.push(...todoItems)
-      return todoList.save()
-    })
-    .then(() => done())
-    .catch(console.log)
-}
+const populateTodoItems = async () => {
+  await TodoList.remove({});
+  await TodoItem.remove({});
+  let todoList = new TodoList({ title: 'Todo list', color: 'red' });
+  todoList = await todoList.save();
+  todoList.todoItems.push(...todoItems);
+  await todoList.save();
+};
 
 module.exports = {
   todoItems,
   users,
   populateTodoItems,
   populateUsers
-}
+};
