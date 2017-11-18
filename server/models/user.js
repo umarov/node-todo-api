@@ -1,8 +1,8 @@
-const mongoose  = require('mongoose');
+const mongoose = require('mongoose');
 const validator = require('validator');
-const jwt       = require('jsonwebtoken');
-const _         = require('lodash');
-const argon2    = require('argon2');
+const jwt = require('jsonwebtoken');
+const _ = require('lodash');
+const argon2 = require('argon2');
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -47,12 +47,12 @@ UserSchema.statics.findByToken = function(token) {
 
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET);
-  } catch(err) {
+  } catch (err) {
     return Promise.reject(err);
   }
 
   return User.findOne({
-    '_id': decoded._id,
+    _id: decoded._id,
     'tokens.token': token,
     'tokens.access': 'auth'
   });
@@ -62,7 +62,9 @@ UserSchema.statics.findByCredentials = async function(email, password) {
   const User = this;
   const user = await User.findOne({ email });
 
-  if (!user) { throw new Error('An account was not found with that email.'); }
+  if (!user) {
+    throw new Error('An account was not found with that email.');
+  }
 
   if (await user.matchingPassword(password)) {
     return user;
@@ -72,7 +74,10 @@ UserSchema.statics.findByCredentials = async function(email, password) {
 };
 
 const options = {
-  timeCost: 4, memoryCost: 13, parallelism: 2, type: argon2.argon2d
+  timeCost: 4,
+  memoryCost: 13,
+  parallelism: 2,
+  type: argon2.argon2d
 };
 
 UserSchema.pre('save', async function(next) {
@@ -83,11 +88,12 @@ UserSchema.pre('save', async function(next) {
       const hashedPassword = await argon2.hash(user.password, options);
       user.password = hashedPassword;
       next();
-    } catch(err) {
+    } catch (err) {
       next(err);
     }
-
-  } else { next(); };
+  } else {
+    next();
+  }
 });
 
 UserSchema.methods.toJSON = function() {
@@ -96,35 +102,50 @@ UserSchema.methods.toJSON = function() {
   const userObject = user.toObject();
 
   return _.pick(userObject, ['_id', 'email']);
-}
+};
 
 UserSchema.methods.matchingPassword = function(password) {
   const user = this;
 
-  return argon2.verify(user.password, password)
-}
+  return argon2.verify(user.password, password);
+};
+
+UserSchema.methods.removeToken = function(token) {
+  const user = this;
+
+  return user.update({
+    $pull: {
+      tokens: { token }
+    }
+  });
+};
 
 UserSchema.methods.generateAuthToken = async function() {
   const user = this;
 
   var access = 'auth';
-  const token = jwt.sign({
-    _id: user._id.toHexString(),
-    access
-  }, process.env.JWT_SECRET, { expiresIn: '1 day' }).toString();
+  const token = jwt
+    .sign(
+      {
+        _id: user._id.toHexString(),
+        access
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '1 day' }
+    )
+    .toString();
 
   user.tokens.push({
     access,
     token
   });
 
-  await user.save()
+  await user.save();
 
-  return token
-}
+  return token;
+};
 
 const User = mongoose.model('User', UserSchema);
-
 
 module.exports = {
   User

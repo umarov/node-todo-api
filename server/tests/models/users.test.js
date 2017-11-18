@@ -5,135 +5,113 @@ const { ObjectId } = require('mongodb');
 const { app } = require('../../server');
 const { User } = require('./../../models/user');
 
-const {
-  users,
-  populateUsers
-} = require('../seed/seed');
+const { users, populateUsers } = require('../seed/seed');
 
 beforeEach(populateUsers);
 
 describe('GET /users/me', () => {
-  it('should return user if authenticated', (done) => {
-    request(app)
+  it('should return user if authenticated', async () => {
+    await request(app)
       .get('/users/me')
       .set('x-auth', users[0].tokens[0].token)
       .expect(200)
       .expect(res => {
         expect(res.body.user._id).toBe(users[0]._id.toHexString());
         expect(res.body.user.email).toBe(users[0].email);
-      })
-      .end(done);
+      });
   });
 
-  it('should return 401 if not authenticated', (done) => {
-    request(app)
+  it('should return 401 if not authenticated', async () => {
+    await request(app)
       .get('/users/me')
       .expect(401)
-      .expect(res => expect(res.body).toEqual({}))
-      .end(done);
+      .expect(res => expect(res.body).toEqual({}));
   });
 });
 
 describe('POST /users', () => {
-  it('should create a user', (done) => {
+  it('should create a user', async () => {
     const data = {
       email: 'example@example.com',
       password: 'password123'
     };
 
-    request(app)
+    await request(app)
       .post('/users')
       .send(data)
       .expect(200)
       .expect(({ body, headers }) => {
-        expect(headers['x-auth']).toBeDefined()
+        expect(headers['x-auth']).toBeDefined();
         expect(body.user._id).toBeDefined();
         expect(body.user.email).toBe(data.email);
-      })
-      .end(async err => {
-        if (err) { return done(err); }
-
-        try {
-          const dbUsers = await User.find();
-          expect(dbUsers.length).toBe(users.length + 1);
-          expect(dbUsers[dbUsers.length - 1].password).not.toBe(data.password);
-          done();
-        } catch(err) {
-          done(err);
-        }
       });
+
+    const dbUsers = await User.find();
+    expect(dbUsers.length).toBe(users.length + 1);
+    expect(dbUsers[dbUsers.length - 1].password).not.toBe(data.password);
   });
 
-  it('should return validation errors if no password is provided', (done) => {
+  it('should return validation errors if no password is provided', async () => {
     const data = {
       email: 'example@example.com'
     };
 
-    request(app)
+    await request(app)
       .post('/users')
       .send(data)
-      .expect(400)
-      .end(done);
+      .expect(400);
   });
 
-  it('should return validation errors if a bad password is provided', (done) => {
+  it('should return validation errors if a bad password is provided', async () => {
     const data = {
       email: 'example@example.com',
       password: '1'
     };
 
-    request(app)
+    await request(app)
       .post('/users')
       .send(data)
-      .expect(400)
-      .end(done);
+      .expect(400);
   });
 
-  it('should return validation errors if a bad email is provided', (done) => {
+  it('should return validation errors if a bad email is provided', async () => {
     const data = {
       email: 'exampl',
       password: '1password1'
     };
 
-    request(app)
+    await request(app)
       .post('/users')
       .send(data)
-      .expect(400)
-      .end(done);
+      .expect(400);
   });
 
-  it('should return validation errors if a bad data is provided', (done) => {
+  it('should return validation errors if a bad data is provided', async () => {
     const data = {
       email: '1',
       wat: '1password1'
     };
 
-    request(app)
+    await request(app)
       .post('/users')
       .send(data)
-      .expect(400)
-      .end(done);
+      .expect(400);
   });
 
-  it('should not create user if email is in use', (done) => {
+  it('should not create user if email is in use', async () => {
     const data = {
       email: 'example@example.com',
       password: 'password123'
     };
 
-    request(app)
+    await request(app)
       .post('/users')
       .send(data)
-      .expect(200)
-      .end(async err => {
-        if (err) { return done(err); }
+      .expect(200);
 
-        request(app)
-          .post('/users')
-          .send(data)
-          .expect(400)
-          .end(done);
-      });
-
+    await request(app)
+      .post('/users')
+      .send(data)
+      .expect(400);
   });
 });
