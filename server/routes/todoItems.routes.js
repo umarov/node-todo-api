@@ -15,9 +15,10 @@ const getTodoItems = async (req, res) => {
 
 const postTodoItem = async (req, res) => {
   try {
-    req.todoList.todoItems.push(req.body.todoItem)
-    const todoList = await req.todoList.save()
-    const todoItem = todoList.todoItems[_.findLastIndex(todoList.todoItems)]
+    const { todoList } = req
+    const todoItem = new TodoItem(req.body.todoItem)
+    todoList.todoItems.push(todoItem)
+    await todoList.save()
     res.send({ todoItem })
   } catch (e) {
     res.status(400).send(e)

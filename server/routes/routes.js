@@ -26,24 +26,29 @@ const {
 } = require('./users.routes');
 
 function _todoItemRoutes(todoListUrl, app) {
-  app.get(`${todoListUrl}/todoItems`, authenticate, todoListChecker, getTodoItems);
-  app.post(`${todoListUrl}/todoItems`, authenticate, todoListChecker, postTodoItem);
+  app.get(
+    `${todoListUrl}/todoItems`,
+    [authenticate, todoListChecker],
+    getTodoItems
+  );
+  app.post(
+    `${todoListUrl}/todoItems`,
+    [authenticate, todoListChecker],
+    postTodoItem
+  );
   app.delete(
     `${todoListUrl}/todoItems/:todoItemId`,
-    authenticate,
-    todoListChecker,
+    [authenticate, todoListChecker],
     deleteTodoItem
   );
   app.get(
     `${todoListUrl}/todoItems/:todoItemId`,
-    authenticate,
-    todoListChecker,
+    [authenticate, todoListChecker],
     showTodoItem
   );
   app.patch(
     `${todoListUrl}/todoItems/:todoItemId`,
-    authenticate,
-    todoListChecker,
+    [authenticate, todoListChecker],
     updateTodoItem
   );
 }

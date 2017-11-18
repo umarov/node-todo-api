@@ -20,18 +20,17 @@ describe('POST /todoItems', () => {
   it('should create a new todo', async () => {
     const authToken = await getAuthToken();
     const text = 'Test todo text';
-    const [todoList] = await TodoList.find();
+    let [todoList] = await TodoList.find();
     const previousLength = todoList.todoItems.length;
 
     await request(app)
       .post(`/todoLists/${todoList._id}/todoItems`)
       .set('x-auth', authToken)
-      .send({ text })
-      .expect(200)
-      .expect(res => expect(res.body.todoItem.text).toBe(text));
+      .send({ todoItem: { text } })
+      .expect(200);
 
-    const [createdTodoList] = await TodoList.find();
-    const todoItems = await createdTodoList.todoItems;
+    [todoList] = await TodoList.find();
+    const todoItems = await todoList.todoItems;
     expect(todoItems.length).toBe(previousLength + 1);
     expect(todoItems[previousLength].text).toBe(text);
   });
@@ -46,8 +45,8 @@ describe('POST /todoItems', () => {
     await request(app)
       .post(`/todoLists/${todoList._id}/todoItems`)
       .set('x-auth', authToken)
-      .send({ text })
-      .expect(400)
+      .send({ todoItem: { text } })
+      .expect(400);
   });
 });
 
@@ -62,7 +61,7 @@ describe('GET /todoItems', () => {
       .expect(200)
       .expect(res => {
         expect(res.body.todoItems.length).toBe(todoItems.length);
-      })
+      });
   });
 });
 
@@ -79,7 +78,7 @@ describe('GET /todoItems/:todoItemId', () => {
       .expect(res => {
         expect(res.body.todoItem._id).toBe(todoItem._id.toString());
         expect(res.body.todoItem.text).toBe(todoItem.text);
-      })
+      });
   });
 
   it('should return a 404 with a non-ObjectId', async () => {
@@ -89,7 +88,7 @@ describe('GET /todoItems/:todoItemId', () => {
     await request(app)
       .get(`/todoLists/${todoList._id}/todoItems/23123`)
       .set('x-auth', authToken)
-      .expect(404)
+      .expect(404);
   });
 
   it('should return a 404 if a todo item was not found', async () => {
@@ -101,7 +100,7 @@ describe('GET /todoItems/:todoItemId', () => {
         `/todoLists/${todoList._id}/todoItems/${new ObjectId().toHexString()}`
       )
       .set('x-auth', authToken)
-      .expect(404)
+      .expect(404);
   });
 });
 
@@ -115,13 +114,10 @@ describe('DELETE /todoItems/:todoItemId', () => {
       .delete(`/todoLists/${todoList._id}/todoItems/${todoItem._id}`)
       .set('x-auth', authToken)
       .expect(200)
-      .expect(async (res) => {
-        expect(res.body.todoItem._id).toBe(todoItem._id.toString());
-        expect(res.body.todoItem.text).toBe(todoItem.text);
-
+      .expect(async res => {
         const todoItem = await TodoItem.findById(res.body.todoItem._id);
         expect(todoItem).toBe(null);
-      })
+      });
   });
 
   it('should return a 404 with a non-ObjectId', async () => {
@@ -131,7 +127,7 @@ describe('DELETE /todoItems/:todoItemId', () => {
     await request(app)
       .delete(`/todoLists/${todoList._id}/todoItems/23123`)
       .set('x-auth', authToken)
-      .expect(404)
+      .expect(404);
   });
 
   it('should return a 404 if a todo item was not found', async () => {
@@ -143,7 +139,7 @@ describe('DELETE /todoItems/:todoItemId', () => {
         `/todoLists/${todoList._id}/todoItems/${new ObjectId().toHexString()}`
       )
       .set('x-auth', authToken)
-      .expect(404)
+      .expect(404);
   });
 });
 
@@ -162,7 +158,7 @@ describe('PATCH /todoItems/:todoItemId', () => {
       .expect(res => {
         expect(res.body.todoItem._id).toBe(todoItem._id.toString());
         expect(res.body.todoItem.text).not.toBe(todoItem.text);
-      })
+      });
   });
 
   it('should update the completed of a todo item to true with updated completedAt with provided ID', async () => {
@@ -181,7 +177,7 @@ describe('PATCH /todoItems/:todoItemId', () => {
         expect(res.body.todoItem.completed).not.toBe(todoItem.completed);
         expect(res.body.todoItem.completed).toBeTruthy();
         expect(res.body.todoItem.completedAt).not.toBe(null);
-      })
+      });
   });
 
   it('should update the completed of a todo item to false with a null completedAt with provided ID', async () => {
@@ -193,7 +189,7 @@ describe('PATCH /todoItems/:todoItemId', () => {
     await request(app)
       .patch(`/todoLists/${todoList._id}/todoItems/${todoItem._id}`)
       .set('x-auth', authToken)
-      .send({ completed })
+      .send({ completed });
 
     await request(app)
       .patch(`/todoLists/${todoList._id}/todoItems/${todoItem._id}`)
@@ -205,7 +201,7 @@ describe('PATCH /todoItems/:todoItemId', () => {
         expect(res.body.todoItem.completed).toBe(todoItem.completed);
         expect(res.body.todoItem.completed).toBeFalsy();
         expect(res.body.todoItem.completedAt).toBe(null);
-      })
+      });
   });
 
   it('should return a 404 with a non-ObjectId', async () => {
@@ -215,7 +211,7 @@ describe('PATCH /todoItems/:todoItemId', () => {
     await request(app)
       .patch(`/todoLists/${todoList._id}/todoItems/23123`)
       .set('x-auth', authToken)
-      .expect(404)
+      .expect(404);
   });
 
   it('should return a 404 if a todo item was not found', async () => {
@@ -227,6 +223,6 @@ describe('PATCH /todoItems/:todoItemId', () => {
         `/todoLists/${todoList._id}/todoItems/${new ObjectId().toHexString()}`
       )
       .set('x-auth', authToken)
-      .expect(404)
+      .expect(404);
   });
 });
