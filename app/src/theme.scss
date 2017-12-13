@@ -6,6 +6,26 @@ $todo-app-accent: mat-palette($mat-green, A200, A100, A400);
 
 $todo-app-warn: mat-palette($mat-red);
 
-$todo-app-theme: mat-light-theme($todo-app-primary, $todo-app-accent, $todo-app-warn);
+$todo-app-theme: mat-light-theme(
+  $todo-app-primary,
+  $todo-app-accent,
+  $todo-app-warn
+);
 
 @include angular-material-theme($todo-app-theme);
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}

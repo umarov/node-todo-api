@@ -5,10 +5,6 @@ const authenticate = async (req, res, next) => {
 
   try {
     const user = await User.findByToken(token);
-    // const all = await User.find({})
-    // console.log(user);
-    // console.log(token);
-    // console.log(all.filter(user => user.tokens.find(({token}) => token === token)));
     if (user) {
       req.user = user;
       req.token = token;
@@ -16,7 +12,7 @@ const authenticate = async (req, res, next) => {
     } else {
       res.status(401).send();
     }
-  } catch(err) {
+  } catch (err) {
     res.status(401).send();
   }
 };
