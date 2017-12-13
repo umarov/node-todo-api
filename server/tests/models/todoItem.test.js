@@ -153,7 +153,7 @@ describe('PATCH /todoItems/:todoItemId', () => {
     await request(app)
       .patch(`/todoLists/${todoList._id}/todoItems/${todoItem._id}`)
       .set('x-auth', authToken)
-      .send({ text })
+      .send({ todoItem: { text } })
       .expect(200)
       .expect(res => {
         expect(res.body.todoItem._id).toBe(todoItem._id.toString());
@@ -170,7 +170,7 @@ describe('PATCH /todoItems/:todoItemId', () => {
     await request(app)
       .patch(`/todoLists/${todoList._id}/todoItems/${todoItem._id}`)
       .set('x-auth', authToken)
-      .send({ completed })
+      .send({ todoItem: { completed } })
       .expect(200)
       .expect(res => {
         expect(res.body.todoItem._id).toBe(todoItem._id.toString());
@@ -189,12 +189,12 @@ describe('PATCH /todoItems/:todoItemId', () => {
     await request(app)
       .patch(`/todoLists/${todoList._id}/todoItems/${todoItem._id}`)
       .set('x-auth', authToken)
-      .send({ completed });
+      .send({ todoItem: { completed } });
 
     await request(app)
       .patch(`/todoLists/${todoList._id}/todoItems/${todoItem._id}`)
       .set('x-auth', authToken)
-      .send({ completed: !completed })
+      .send({ todoItem: { completed: !completed } })
       .expect(200)
       .expect(res => {
         expect(res.body.todoItem._id).toBe(todoItem._id.toString());

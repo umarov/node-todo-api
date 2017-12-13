@@ -37,7 +37,7 @@ export class TodoListsComponent implements OnInit {
       .pipe(take(1))
       .subscribe(
         () => {
-          this.todoLists = this.todoListsService.getTodoLists();
+          this.todoListsService.getTodoLists();
         },
         err => {
           console.error(err);

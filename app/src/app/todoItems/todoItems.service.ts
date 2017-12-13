@@ -5,10 +5,12 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { TodoItem } from './todoItem';
+import { tap } from 'rxjs/operators/tap';
+import { TodoListsService } from '../todo-lists/todo-lists.service';
 
 @Injectable()
 export class TodoItemsService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private todoListsService: TodoListsService) {}
 
   getTodoItems(todoListId: string): Observable<TodoItem[]> {
     return this.http
@@ -22,6 +24,15 @@ export class TodoItemsService {
       {
         todoItem
       }
-    );
+    ).pipe(tap(() => this.todoListsService.getTodoList(todoListId)));
+  }
+
+  updateTodoItem(todoListId: string, todoItem: TodoItem) {
+    return this.http.patch(
+      `${environment.backendUrl}/todoLists/${todoListId}/todoItems/${todoItem._id}`,
+      {
+        todoItem
+      }
+    ).pipe(tap(() => this.todoListsService.getTodoList(todoListId)));
   }
 }

@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
-import { ActivatedRoute, ParamMap } from '@angular/router'
-import { switchMap } from 'rxjs/operators'
-import { TodoList } from '../todo-list'
-import { TodoListsService } from '../todo-lists.service'
-import { Subscription } from 'rxjs/Subscription'
-import { Observable } from 'rxjs/Observable'
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { switchMap, take } from 'rxjs/operators';
+import { TodoList } from '../todo-list';
+import { TodoListsService } from '../todo-lists.service';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 import { TodoItem } from '../../todoItems/todoItem';
 import { TodoItemsService } from '../../todoItems/todoItems.service';
 
@@ -18,6 +18,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   todoItemText: string;
   todoListId: string;
   creatingNewItem = true;
+
   constructor(
     private route: ActivatedRoute,
     private todoListsService: TodoListsService,
@@ -40,9 +41,16 @@ export class TodoListComponent implements OnInit, OnDestroy {
     const todoItem = new TodoItem(todoItemText);
     this.todoItemsService
       .createTodoItem(this.todoListId, todoItem)
+      .pipe(take(1))
       .subscribe(response => {
         formObject.reset();
-        this.todoList = this.todoListsService.getTodoList(this.todoListId);
       }, console.error);
+  }
+
+  todoItemUpdated(todoItem) {
+    this.todoItemsService
+      .updateTodoItem(this.todoListId, todoItem)
+      .pipe(take(1))
+      .subscribe();
   }
 }

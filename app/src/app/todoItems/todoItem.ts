@@ -6,6 +6,5 @@ export class TodoItem {
     public completed?: boolean,
     public completedAt?: Date,
   ) {
-    this._id = null;
   }
 }

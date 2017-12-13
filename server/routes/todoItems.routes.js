@@ -68,7 +68,7 @@ const showTodoItem = async (req, res) => {
 const updateTodoItem = async (req, res) => {
   try {
     const { todoItemId } = req.params
-    const body = _.pick(req.body, ['text', 'completed'])
+    const body = _.pick(req.body.todoItem, ['text', 'completed'])
 
     if (!ObjectId.isValid(todoItemId)) {
       return res.status(404).send()

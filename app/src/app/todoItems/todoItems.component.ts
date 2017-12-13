@@ -9,6 +9,7 @@ import { TodoItemsService } from './todoItems.service';
 import { Subscription } from 'rxjs/Subscription';
 import { TodoItem } from './todoItem';
 import { Observable } from 'rxjs/Observable';
+import { EventEmitter } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-todo-items',
@@ -18,6 +19,7 @@ import { Observable } from 'rxjs/Observable';
 })
 export class TodoItemsComponent implements OnInit, OnDestroy {
   @Input() todoListId: string;
+
   todoItems: Observable<TodoItem[]>;
 
   constructor(private todoItemsService: TodoItemsService) {}
