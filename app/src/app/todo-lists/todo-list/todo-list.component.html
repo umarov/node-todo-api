@@ -4,7 +4,7 @@
     <mat-list-item *ngIf="creatingNewItem">
       <form (ngSubmit)="onTodoItemAdded(todoItemForm)" #todoItemForm="ngForm" class="todo-item-form">
         <mat-form-field>
-          <input matInput placeholder="Todo item" id="todoItemText" name="todoItemText" [(ngModel)]="todoItemText">
+          <input matInput placeholder="Todo item" autocomplete="off" id="todoItemText" name="todoItemText" [(ngModel)]="todoItemText">
         </mat-form-field>
         <button mat-icon-button color="accent">
           <mat-icon aria-label="Add todo item icon button">add_circle</mat-icon>

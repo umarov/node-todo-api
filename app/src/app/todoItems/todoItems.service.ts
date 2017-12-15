@@ -33,6 +33,6 @@ export class TodoItemsService {
       {
         todoItem
       }
-    ).pipe(tap(() => this.todoListsService.getTodoList(todoListId)));
+    );
   }
 }

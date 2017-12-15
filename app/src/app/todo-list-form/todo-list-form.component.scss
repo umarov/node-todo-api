@@ -2,3 +2,25 @@
 @import '~@angular/material/theming';
 // Import your custom theme
 @import 'src/theme.scss';
+
+.todo-list-form {
+  display: grid;
+  grid-template-columns: fr 0fr;
+  grid-template-rows: 0fr 1fr;
+}
+
+mat-card-subtitle {
+  grid-column-start: 1;
+  grid-row-start: 1;
+}
+
+mat-card-content {
+  grid-column-start: 1;
+  grid-row-start: 2;
+}
+
+mat-card-actions {
+  grid-column-start: 2;
+  grid-row-start: 2;
+  align-self: end;
+}

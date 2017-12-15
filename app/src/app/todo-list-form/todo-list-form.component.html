@@ -1,11 +1,11 @@
 <mat-card>
-  <form #todoListForm="ngForm" (ngSubmit)="onCreate()">
+  <form class="todo-list-form" #todoListForm="ngForm" (ngSubmit)="onCreate()">
     <mat-card-subtitle>
       Create a Todo List
     </mat-card-subtitle>
     <mat-card-content>
       <mat-form-field class="example-full-width">
-        <input matInput type="text" placeholder="Title of your Todo list" name="title" required [(ngModel)]="todoList.title">
+        <input matInput type="text" autocomplete="off" placeholder="Title of your Todo list" name="title" required [(ngModel)]="todoList.title">
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
