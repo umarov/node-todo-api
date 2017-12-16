@@ -29,5 +29,6 @@ const TodoListSchema =  new mongoose.Schema({
 const TodoList = mongoose.model('TodoList', TodoListSchema);
 
 module.exports = {
-  TodoList
+  TodoList,
+  TodoListSchema
 };

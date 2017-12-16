@@ -3,6 +3,7 @@ const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 const argon2 = require('argon2');
+const { TodoListSchema } = require('./todoList');
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -38,7 +39,8 @@ const UserSchema = new mongoose.Schema({
         required: true
       }
     }
-  ]
+  ],
+  todoLists: [TodoListSchema]
 });
 
 UserSchema.statics.findByToken = function(token) {

@@ -35,4 +35,10 @@ export class TodoItemsService {
       }
     );
   }
+
+  delteTodoItem(todoListId: string, todoItem: TodoItem) {
+    return this.http.delete(
+      `${environment.backendUrl}/todoLists/${todoListId}/todoItems/${todoItem._id}`,
+    ).pipe(tap(() => this.todoListsService.getTodoList(todoListId)));
+  }
 }

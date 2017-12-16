@@ -6,6 +6,7 @@ import { environment } from '../environments/environment';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+import { TodoItem } from './todoItems/todoItem';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,7 @@ import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
   encapsulation: ViewEncapsulation.Native
 })
 export class AppComponent implements OnInit, OnDestroy {
-  private topLevelRoutes = ['login', 'todo-lists'];
+  private topLevelRoutes = ['login', 'todo-lists', ''];
   private routerSubscription: Subscription;
   public showBackButton: boolean;
   constructor(

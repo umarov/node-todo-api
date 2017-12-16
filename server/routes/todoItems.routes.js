@@ -15,10 +15,10 @@ const getTodoItems = async (req, res) => {
 
 const postTodoItem = async (req, res) => {
   try {
-    const { todoList } = req
+    const { todoList, user } = req
     const todoItem = new TodoItem(req.body.todoItem)
     todoList.todoItems.push(todoItem)
-    await todoList.save()
+    await user.save()
     res.send({ todoItem })
   } catch (e) {
     res.status(400).send(e)
@@ -26,6 +26,7 @@ const postTodoItem = async (req, res) => {
 }
 
 const deleteTodoItem = async (req, res) => {
+  const { todoList, user } = req
   try {
     const { todoItemId } = req.params
 
@@ -33,9 +34,10 @@ const deleteTodoItem = async (req, res) => {
       return res.status(404).send()
     }
 
-    const todoItem = await req.todoList.todoItems.id(todoItemId)
+    const todoItem = await todoList.todoItems.id(todoItemId)
     if (todoItem) {
       await todoItem.remove()
+      await user.save()
       res.send({ todoItem })
     } else {
       res.status(404).send()
@@ -66,6 +68,7 @@ const showTodoItem = async (req, res) => {
 }
 
 const updateTodoItem = async (req, res) => {
+  const { todoList, user } = req
   try {
     const { todoItemId } = req.params
     const body = _.pick(req.body.todoItem, ['text', 'completed'])
@@ -81,10 +84,10 @@ const updateTodoItem = async (req, res) => {
       body.completedAt = null
     }
 
-    const todoItem = await req.todoList.todoItems.id(todoItemId)
+    const todoItem = await todoList.todoItems.id(todoItemId)
     if (todoItem) {
       todoItem.set(body)
-      await req.todoList.save()
+      await user.save()
 
       res.status(200).send({ todoItem })
     } else {

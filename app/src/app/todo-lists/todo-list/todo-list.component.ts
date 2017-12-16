@@ -38,13 +38,15 @@ export class TodoListComponent implements OnInit, OnDestroy {
 
   onTodoItemAdded(formObject) {
     const { todoItemText } = formObject.form.value;
-    const todoItem = new TodoItem(todoItemText);
-    this.todoItemsService
-      .createTodoItem(this.todoListId, todoItem)
-      .pipe(take(1))
-      .subscribe(response => {
-        formObject.reset();
-      }, console.error);
+    if (todoItemText) {
+      const todoItem = new TodoItem(todoItemText);
+      this.todoItemsService
+        .createTodoItem(this.todoListId, todoItem)
+        .pipe(take(1))
+        .subscribe(response => {
+          formObject.reset();
+        }, console.error);
+    }
   }
 
   todoItemUpdated(todoItem) {
@@ -52,5 +54,16 @@ export class TodoListComponent implements OnInit, OnDestroy {
       .updateTodoItem(this.todoListId, todoItem)
       .pipe(take(1))
       .subscribe();
+  }
+
+  removeTodoItem(todoItem) {
+    this.todoItemsService
+      .delteTodoItem(this.todoListId, todoItem)
+      .pipe(take(1))
+      .subscribe();
+  }
+
+  trackByTodoItems(index, todoItem: TodoItem) {
+    return todoItem._id;
   }
 }

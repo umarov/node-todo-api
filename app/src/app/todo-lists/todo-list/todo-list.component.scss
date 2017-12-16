@@ -5,6 +5,13 @@
 }
 
 .todo-list-content {
-  padding: 8px;
+  padding: 16px;
   height: 100%;
+}
+
+.todo-item-form {
+  display: grid;
+  grid-template-columns: 1fr 0fr;
+  align-items: center;
+  width: 100%;
 }

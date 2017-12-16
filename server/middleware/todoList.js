@@ -1,9 +1,10 @@
 const { TodoList } = require('../models/todoList');
 
 const todoListChecker = async (req, res, next) => {
-  const { todoListId } = req.params;
+  const { user, params } = req
+  const { todoListId } = params;
   try {
-    const todoList = await TodoList.findById(todoListId);
+    const todoList = await user.todoLists.id(todoListId);
 
     if (todoList) {
       req.todoList = todoList;

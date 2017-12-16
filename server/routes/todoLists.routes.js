@@ -4,8 +4,9 @@ const _ = require('lodash')
 const { TodoList } = require('../models/todoList')
 
 const getTodoLists = async (req, res) => {
+  const { user } = req
   try {
-    const todoLists = await TodoList.find()
+    const todoLists = await user.todoLists
 
     res.send({ todoLists })
   } catch (err) {
@@ -14,9 +15,11 @@ const getTodoLists = async (req, res) => {
 }
 
 const postTodoList = async (req, res) => {
-  const todoList = new TodoList(req.body)
+  const { user, body } = req
+  const todoList = new TodoList(body)
   try {
-    await todoList.save()
+    user.todoLists.push(todoList)
+    await user.save()
 
     res.send({ todoList })
   } catch (e) {
@@ -25,16 +28,18 @@ const postTodoList = async (req, res) => {
 }
 
 const deleteTodoList = async (req, res) => {
+  const { user, params } = req
   try {
-    const { todoListId } = req.params
+    const { todoListId } = params
 
     if (!ObjectId.isValid(todoListId)) {
       return res.status(404).send()
     }
 
-    const todoList = await TodoList.findByIdAndRemove(todoListId)
+    const todoList = await user.todoLists.id(todoListId)
 
     if (todoList) {
+      await todoList.remove()
       res.send({ todoList })
     } else {
       res.status(404).send()
@@ -45,14 +50,15 @@ const deleteTodoList = async (req, res) => {
 }
 
 const showTodoList = async (req, res) => {
+  const { user, params } = req
   try {
-    const { todoListId } = req.params
+    const { todoListId } = params
 
     if (!ObjectId.isValid(todoListId)) {
       return res.status(404).send()
     }
 
-    const todoList = await TodoList.findById(todoListId)
+    const todoList = await user.todoLists.id(todoListId)
 
     if (todoList) {
       res.send({ todoList })
@@ -65,8 +71,10 @@ const showTodoList = async (req, res) => {
 }
 
 const updateTodoList = async (req, res) => {
+  const { user, params } = req;
+
   try {
-    const { todoListId } = req.params
+    const { todoListId } = params
     const body = _.pick(req.body, ['title', 'completed', 'color'])
 
     if (!ObjectId.isValid(todoListId)) {
@@ -80,13 +88,12 @@ const updateTodoList = async (req, res) => {
       body.completedAt = null
     }
 
-    const todoList = await TodoList.findByIdAndUpdate(
-      todoListId,
-      { $set: body },
-      { new: true }
-    )
+    const todoList = await user.todoLists.id(todoListId)
 
     if (todoList) {
+      todoList.set(body)
+      await user.save()
+
       res.status(200).send({ todoList })
     } else {
       res.status(404).send()
