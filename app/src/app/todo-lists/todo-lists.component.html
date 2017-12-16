@@ -2,7 +2,7 @@
   <div class="todo-lists-content" *ngIf="todoLists.length > 0; else noTodoLists">
     <mat-card
       class="todo-list-card"
-      *ngFor="let todoList of todoLists"
+      *ngFor="let todoList of todoLists; trackBy: trackTodoLists"
       [ngStyle]="{ 'background-color': todoList.color}">
       <mat-card-title (click)="showTodoList(todoList._id)">
         {{ todoList.title }}

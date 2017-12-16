@@ -44,4 +44,8 @@ export class TodoListsComponent implements OnInit {
         }
       );
   }
+
+  trackTodoLists(index, todoList: TodoList) {
+    return todoList._id;
+  }
 }
