@@ -38,7 +38,7 @@ import { environment } from '../environments/environment';
     HttpClientModule,
     UiMaterialModule,
     AppRoutesModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', {
+    ServiceWorkerModule.register('./ngsw-worker.js', {
       enabled: environment.production
     })
   ],
