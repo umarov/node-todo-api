@@ -2,6 +2,7 @@
 @import '~@angular/material/theming';
 // Import your custom theme
 @import 'src/theme.scss';
+@import 'src/responsive-mixins';
 
 mat-card {
   margin: 16px 8px;
@@ -10,14 +11,8 @@ mat-card {
     display: grid;
     grid-template-columns: 4fr 1fr;
     grid-template-rows: 0fr 1fr;
+    min-height: 190px;
   }
-}
-
-app-todo-items {
-  grid-column-start: 1;
-  grid-column-end: 4;
-  grid-row-start: 2;
-  grid-row-end: 2;
 }
 
 mat-card-title.mat-card-title {
@@ -26,7 +21,36 @@ mat-card-title.mat-card-title {
 
 .todo-lists-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
+
+  @include mobile-s {
+    grid-template-columns: 1fr;
+  }
+  @include mobile-m {
+    grid-template-columns: 1fr;
+  }
+  @include mobile-l {
+    grid-template-columns: 1fr 1fr;
+  }
+  @include tablet {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  @include laptop-s {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+  @include laptop-l {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  }
+  @include big {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  }
+}
+
+app-todo-items {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 2;
+  grid-row-end: 2;
 }
 
 .delete-todo-list-button {

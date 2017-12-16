@@ -2,7 +2,7 @@
   <mat-list-item class="todo-items" *ngFor="let todoItem of todoItems | async">
     <mat-checkbox disabled [checked]="todoItem.completed">
     </mat-checkbox>
-    <span class="mat-checkbox-long-text">
+    <span class="mat-checkbox-long-text" [ngClass]="{ completed: todoItem.completed }">
       {{ todoItem.text }}
     </span>
   </mat-list-item>
