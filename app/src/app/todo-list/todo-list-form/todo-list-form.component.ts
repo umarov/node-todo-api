@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoList } from '../todo-lists/todo-list';
 import { TodoListsService } from '../todo-lists/todo-lists.service';
-import { take } from 'rxjs/operators';
+import { take } from 'rxjs/operators/take';
 import { Router } from '@angular/router';
 
 @Component({
@@ -30,7 +30,7 @@ export class TodoListFormComponent implements OnInit {
       .createTodoList(this.todoList)
       .pipe(take(1))
       .subscribe(
-        response => {
+        _ => {
           this.router.navigate(['/todo-lists']);
         },
         error => {

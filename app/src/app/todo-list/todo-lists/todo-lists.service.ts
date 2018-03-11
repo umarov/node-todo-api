@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-
-import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators';
-
-import { TodoList } from './todo-list';
 import { Subject } from 'rxjs/Subject';
+import { map } from 'rxjs/operators/map';
 import { take } from 'rxjs/operators/take';
+
+import { environment } from '../../../environments/environment';
+import { TodoList } from './todo-list';
 
 @Injectable()
 export class TodoListsService {

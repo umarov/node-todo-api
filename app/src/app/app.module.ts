@@ -7,18 +7,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { UiMaterialModule } from './ui-material/ui-material.module';
-import { TodoListsService } from './todo-lists/todo-lists.service';
-import { TodoItemsComponent } from './todoItems/todoItems.component';
-import { TodoListsComponent } from './todo-lists/todo-lists.component';
-import { TodoItemsService } from './todoItems/todoItems.service';
 import { AppRoutesModule } from './app-routes/app-routes.module';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { TokenInterceptor } from './login/auth/token.interceptor';
 import { AuthService } from './login/auth/auth.service';
 import { AuthInterceptor } from './login/auth/auth.interceptor';
-import { TodoListFormComponent } from './todo-list-form/todo-list-form.component';
-import { TodoListComponent } from './todo-lists/todo-list/todo-list.component';
 import { environment } from '../environments/environment';
 import { LoginFormComponent } from './login/login-form/login-form.component';
 import { SignupFormComponent } from './login/signup-form/signup-form.component';
@@ -26,12 +20,8 @@ import { SignupFormComponent } from './login/signup-form/signup-form.component';
 @NgModule({
   declarations: [
     AppComponent,
-    TodoItemsComponent,
-    TodoListsComponent,
     LoginComponent,
     PageNotFoundComponent,
-    TodoListFormComponent,
-    TodoListComponent,
     LoginFormComponent,
     SignupFormComponent
   ],
@@ -47,8 +37,6 @@ import { SignupFormComponent } from './login/signup-form/signup-form.component';
     })
   ],
   providers: [
-    TodoListsService,
-    TodoItemsService,
     AuthService,
     {
       provide: HTTP_INTERCEPTORS,

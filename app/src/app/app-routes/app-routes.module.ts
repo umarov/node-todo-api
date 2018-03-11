@@ -2,28 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from '../login/login.component';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
-import { TodoListsComponent } from '../todo-lists/todo-lists.component';
 import { AuthGuard } from '../login/auth/auth.guard';
-import { TodoListFormComponent } from '../todo-list-form/todo-list-form.component';
-import { TodoListComponent } from '../todo-lists/todo-list/todo-list.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   {
-    path: 'todo-lists',
-    component: TodoListsComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'todo-lists/:id',
-    component: TodoListComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'create-todo-lists',
-    component: TodoListFormComponent,
-    canActivate: [AuthGuard]
-  },
+    path: 'todo-lists', loadChildren: 'app/todo-list/todo-list.module#TodoListModule' },
   {
     path: '',
     redirectTo: '/todo-lists',

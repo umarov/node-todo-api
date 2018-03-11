@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { switchMap, take } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators/switchMap';
+import { take } from 'rxjs/operators/take';
+import { Observable } from 'rxjs/Observable';
+
 import { TodoList } from '../todo-list';
 import { TodoListsService } from '../todo-lists.service';
-import { Observable } from 'rxjs/Observable';
 import { TodoItem } from '../../todoItems/todoItem';
 import { TodoItemsService } from '../../todoItems/todoItems.service';
 

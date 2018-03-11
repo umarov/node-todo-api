@@ -1,8 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { AuthService } from './auth/auth.service';
-import { Router } from '@angular/router';
-import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
-import { take } from 'rxjs/operators/take';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 export class User {
   name: string;
@@ -14,18 +10,13 @@ export class User {
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  encapsulation: ViewEncapsulation.Native,
+  encapsulation: ViewEncapsulation.Native
 })
-export class LoginComponent implements OnInit, OnDestroy {
-  snackBarRef: MatSnackBarRef<SimpleSnackBar>;
+export class LoginComponent implements OnInit {
   showLogin = true;
   user: User;
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    public snackBar: MatSnackBar,
-  ) {}
+  constructor() {}
 
   ngOnInit() {
     this.user = new User();
@@ -33,13 +24,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   signedUp(user: User) {
     this.user = user;
+
+    this.toggleLoginSignUp();
   }
 
   toggleLoginSignUp() {
     this.showLogin = !this.showLogin;
   }
-
-
-
-  ngOnDestroy() {}
 }
