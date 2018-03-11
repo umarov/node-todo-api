@@ -20,6 +20,8 @@ import { AuthInterceptor } from './login/auth/auth.interceptor';
 import { TodoListFormComponent } from './todo-list-form/todo-list-form.component';
 import { TodoListComponent } from './todo-lists/todo-list/todo-list.component';
 import { environment } from '../environments/environment';
+import { LoginFormComponent } from './login/login-form/login-form.component';
+import { SignupFormComponent } from './login/signup-form/signup-form.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { environment } from '../environments/environment';
     LoginComponent,
     PageNotFoundComponent,
     TodoListFormComponent,
-    TodoListComponent
+    TodoListComponent,
+    LoginFormComponent,
+    SignupFormComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,18 @@
+<form #loginForm="ngForm" (ngSubmit)="onLogin()">
+  <mat-card-subtitle>
+    Please login with your details
+  </mat-card-subtitle>
+  <mat-card-content>
+    <mat-form-field class="example-full-width">
+      <input matInput autofocus type="email" placeholder="Email" name="email" required [(ngModel)]="user.email">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input matInput type="password" autocomplete="on" placeholder="Password" name="password" required [(ngModel)]="user.password">
+    </mat-form-field>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" [disabled]="!loginForm.form.valid" type="submit">Login</button>
+    <button mat-button type="reset" color="primary" (click)="cancelLogin()">Sign up</button>
+  </mat-card-actions>
+</form>
