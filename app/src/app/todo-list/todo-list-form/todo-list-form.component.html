@@ -1,19 +1,23 @@
 <mat-card>
   <form class="todo-list-form" #todoListForm="ngForm" (ngSubmit)="onCreate()">
     <mat-card-subtitle>
-      Create a Todo List
+      <h3>Create a Todo List</h3>
     </mat-card-subtitle>
-    <mat-card-content>
-      <mat-form-field class="example-full-width">
+
+    <mat-card-content class="title">
+      <mat-form-field class="full-width">
         <input matInput type="text" autocomplete="off" placeholder="Title of your Todo list" name="title" required [(ngModel)]="todoList.title">
       </mat-form-field>
+    </mat-card-content>
 
-      <mat-form-field class="example-full-width">
+    <mat-card-content class="color">
+      <mat-form-field class="full-width">
         <mat-select placeholder="Color" name="color" required [(ngModel)]="todoList.color">
           <mat-option *ngFor="let color of colors" [value]="color">{{ color }}</mat-option>
         </mat-select>
       </mat-form-field>
     </mat-card-content>
+
     <mat-card-actions>
       <button mat-raised-button color="primary" [disabled]="!todoListForm.form.valid" type="submit">Create</button>
     </mat-card-actions>

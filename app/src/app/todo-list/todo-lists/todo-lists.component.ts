@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { TodoListsService } from './todo-lists.service';
 import { TodoList } from './todo-list';
 import { Observable } from 'rxjs/Observable';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -16,7 +16,8 @@ export class TodoListsComponent implements OnInit {
 
   constructor(
     private todoListsService: TodoListsService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.todoLists = this.todoListsService.getTodoLists();
   }
@@ -24,7 +25,7 @@ export class TodoListsComponent implements OnInit {
   ngOnInit() {}
 
   createTodoList() {
-    this.router.navigate(['/create-todo-lists']);
+    this.router.navigate(['new'], {relativeTo: this.route});
   }
 
   showTodoList(todoListId: string) {

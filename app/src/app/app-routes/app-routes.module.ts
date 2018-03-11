@@ -7,7 +7,10 @@ import { AuthGuard } from '../login/auth/auth.guard';
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   {
-    path: 'todo-lists', loadChildren: 'app/todo-list/todo-list.module#TodoListModule' },
+    path: 'todo-lists',
+    loadChildren: 'app/todo-list/todo-list.module#TodoListModule',
+    canActivate: [AuthGuard]
+  },
   {
     path: '',
     redirectTo: '/todo-lists',
