@@ -7,13 +7,10 @@ import { map } from 'rxjs/operators';
 
 import { TodoList } from './todo-list';
 import { Subject } from 'rxjs/Subject';
-import { single } from 'rxjs/operators/single';
 import { take } from 'rxjs/operators/take';
 
 @Injectable()
 export class TodoListsService {
-  private todoLists: TodoList[];
-  private todoList: TodoList;
   todoLists$: Subject<TodoList[]>;
   todoList$: Subject<TodoList>;
 
@@ -47,7 +44,7 @@ export class TodoListsService {
 
   deleteTodoList(todoList: TodoList) {
     return this.http.delete(
-      `${environment.backendUrl}/todoLists/${todoList._id}`
+      `${environment.backendUrl}/todoLists/${todoList.id}`
     );
   }
 }

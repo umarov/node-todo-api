@@ -1,8 +1,8 @@
-const { User} = require('../../models/user')
+const { User } = require('../../models/user');
 
 const user = {
   email: 'test@test.com',
-  password: 'userTwoPass'
+  password: 'userTwoPass',
 };
 
 async function createUser() {
@@ -11,11 +11,11 @@ async function createUser() {
 }
 
 async function getAuthToken() {
-  const user = await createUser();
-  const token = await user.generateAuthToken();
+  const createdUser = await createUser();
+  const token = await createdUser.generateAuthToken();
   return token;
 }
 
 module.exports = {
-  getAuthToken
-}
+  getAuthToken,
+};

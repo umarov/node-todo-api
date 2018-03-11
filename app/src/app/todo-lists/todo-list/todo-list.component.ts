@@ -3,7 +3,6 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap, take } from 'rxjs/operators';
 import { TodoList } from '../todo-list';
 import { TodoListsService } from '../todo-lists.service';
-import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { TodoItem } from '../../todoItems/todoItem';
 import { TodoItemsService } from '../../todoItems/todoItems.service';
@@ -43,27 +42,27 @@ export class TodoListComponent implements OnInit, OnDestroy {
       this.todoItemsService
         .createTodoItem(this.todoListId, todoItem)
         .pipe(take(1))
-        .subscribe(response => {
+        .subscribe(_ => {
           formObject.reset();
         }, console.error);
     }
   }
 
-  todoItemUpdated(todoItem) {
+  todoItemUpdated(todoItem: TodoItem) {
     this.todoItemsService
       .updateTodoItem(this.todoListId, todoItem)
       .pipe(take(1))
       .subscribe();
   }
 
-  removeTodoItem(todoItem) {
+  removeTodoItem(todoItem: TodoItem) {
     this.todoItemsService
-      .delteTodoItem(this.todoListId, todoItem)
+      .deleteTodoItem(this.todoListId, todoItem)
       .pipe(take(1))
       .subscribe();
   }
 
-  trackByTodoItems(index, todoItem: TodoItem) {
-    return todoItem._id;
+  trackByTodoItems(_: number, todoItem: TodoItem) {
+    return todoItem.id;
   }
 }

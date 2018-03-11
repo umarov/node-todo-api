@@ -1,0 +1,17 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended"],
+  "jsRules": {},
+  "rules": {
+    "cyclomatic-complexity": true,
+    "semicolon": true,
+    "quotemark": [true, "single"],
+    "no-unused-expression": true,
+    "trailing-comma": false,
+    "arrow-parens": false,
+    "no-console":false,
+    "no-debugger": true,
+    "interface-name": false,
+    "radix": false
+  }
+}

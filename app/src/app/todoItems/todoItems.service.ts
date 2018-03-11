@@ -29,16 +29,16 @@ export class TodoItemsService {
 
   updateTodoItem(todoListId: string, todoItem: TodoItem) {
     return this.http.patch(
-      `${environment.backendUrl}/todoLists/${todoListId}/todoItems/${todoItem._id}`,
+      `${environment.backendUrl}/todoLists/${todoListId}/todoItems/${todoItem.id}`,
       {
         todoItem
       }
     );
   }
 
-  delteTodoItem(todoListId: string, todoItem: TodoItem) {
+  deleteTodoItem(todoListId: string, todoItem: TodoItem) {
     return this.http.delete(
-      `${environment.backendUrl}/todoLists/${todoListId}/todoItems/${todoItem._id}`,
+      `${environment.backendUrl}/todoLists/${todoListId}/todoItems/${todoItem.id}`,
     ).pipe(tap(() => this.todoListsService.getTodoList(todoListId)));
   }
 }

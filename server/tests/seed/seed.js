@@ -15,28 +15,26 @@ const users = [
     tokens: [
       {
         access: 'auth',
-        token: jwt
-          .sign({ _id: userOneId, access: 'auth' }, process.env.JWT_SECRET)
-          .toString()
-      }
-    ]
+        token: jwt.sign({ _id: userOneId, access: 'auth' }, process.env.JWT_SECRET).toString(),
+      },
+    ],
   },
   {
     _id: userTwoId,
     email: 'test@test.com',
-    password: 'userTwoPass'
-  }
+    password: 'userTwoPass',
+  },
 ];
 
 const todoItems = [
   {
-    text: 'First test todo'
+    text: 'First test todo',
   },
   {
     text: 'Second test todo',
     completed: true,
-    completedAt: 333
-  }
+    completedAt: 333,
+  },
 ];
 
 const populateUsers = async () => {
@@ -59,5 +57,5 @@ module.exports = {
   todoItems,
   users,
   populateTodoItems,
-  populateUsers
+  populateUsers,
 };

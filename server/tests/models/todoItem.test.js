@@ -2,12 +2,18 @@ const expect = require('expect');
 const request = require('supertest');
 const { ObjectId } = require('mongodb');
 
-const { app } = require('../../server');
+const { setupServer } = require('../../server');
 const { TodoItem } = require('./../../models/todoItem');
 const { TodoList } = require('./../../models/todoList');
 const { getAuthToken } = require('../helpers/user-authentication');
 
 const { todoItems, populateTodoItems } = require('../seed/seed');
+
+let app;
+
+before(async () => {
+  app = await setupServer();
+});
 
 beforeEach(populateTodoItems);
 
@@ -96,9 +102,7 @@ describe('GET /todoItems/:todoItemId', () => {
     const [todoList] = await TodoList.find();
 
     await request(app)
-      .get(
-        `/todoLists/${todoList._id}/todoItems/${new ObjectId().toHexString()}`
-      )
+      .get(`/todoLists/${todoList._id}/todoItems/${new ObjectId().toHexString()}`)
       .set('x-auth', authToken)
       .expect(404);
   });
@@ -135,9 +139,7 @@ describe('DELETE /todoItems/:todoItemId', () => {
     const [todoList] = await TodoList.find();
 
     await request(app)
-      .delete(
-        `/todoLists/${todoList._id}/todoItems/${new ObjectId().toHexString()}`
-      )
+      .delete(`/todoLists/${todoList._id}/todoItems/${new ObjectId().toHexString()}`)
       .set('x-auth', authToken)
       .expect(404);
   });
@@ -219,9 +221,7 @@ describe('PATCH /todoItems/:todoItemId', () => {
     const [todoList] = await TodoList.find();
 
     await request(app)
-      .patch(
-        `/todoLists/${todoList._id}/todoItems/${new ObjectId().toHexString()}`
-      )
+      .patch(`/todoLists/${todoList._id}/todoItems/${new ObjectId().toHexString()}`)
       .set('x-auth', authToken)
       .expect(404);
   });

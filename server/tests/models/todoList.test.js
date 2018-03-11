@@ -2,10 +2,15 @@ const expect = require('expect');
 const request = require('supertest');
 const { ObjectId } = require('mongodb');
 
-const { app } = require('../../server');
-const { TodoList } = require('./../../models/todoList');
+const { setupServer } = require('../../server');
 const { populateTodoItems } = require('../seed/seed');
 const { getAuthToken } = require('../helpers/user-authentication');
+
+let app;
+
+before(async () => {
+  app = await setupServer();
+});
 
 beforeEach(populateTodoItems);
 
@@ -72,7 +77,7 @@ describe('GET /todoLists/:todoListId', () => {
     const authToken = await getAuthToken();
 
     await request(app)
-      .get(`/todoLists/23123`)
+      .get('/todoLists/23123')
       .set('x-auth', authToken)
       .expect(404);
   });
@@ -109,7 +114,7 @@ describe('DELETE /todoLists/:todoListId', () => {
     const authToken = await getAuthToken();
 
     await request(app)
-      .delete(`/todoLists/23123`)
+      .delete('/todoLists/23123')
       .set('x-auth', authToken)
       .expect(404);
   });
@@ -186,7 +191,7 @@ describe('PATCH /todoLists/:todoListId', () => {
     const authToken = await getAuthToken();
 
     await request(app)
-      .patch(`/todoLists/23123`)
+      .patch('/todoLists/23123')
       .set('x-auth', authToken)
       .expect(404);
   });

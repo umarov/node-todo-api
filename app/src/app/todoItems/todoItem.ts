@@ -1,5 +1,5 @@
 export class TodoItem {
-  public _id: string;
+  public id: string;
 
   constructor(
     public text?: string,

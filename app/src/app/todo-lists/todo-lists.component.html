@@ -4,14 +4,14 @@
       class="todo-list-card"
       *ngFor="let todoList of todoLists; trackBy: trackTodoLists"
       [ngStyle]="{ 'background-color': todoList.color}">
-      <mat-card-title (click)="showTodoList(todoList._id)">
+      <mat-card-title (click)="showTodoList(todoList.id)">
         {{ todoList.title }}
       </mat-card-title>
 
       <button mat-icon-button color="warn" class="delete-todo-list-button" (click)="delete(todoList)">
         <mat-icon aria-label="Example icon-button with a heart icon">close</mat-icon>
       </button>
-      <app-todo-items [todoListId]="todoList._id" (click)="showTodoList(todoList._id)"></app-todo-items>
+      <app-todo-items [todoListId]="todoList.id" (click)="showTodoList(todoList.id)"></app-todo-items>
     </mat-card>
   </div>
 

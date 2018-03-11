@@ -1,6 +1,7 @@
-const { User } = require('../models/user');
+import { User } from '../db/entity/User';
+import { Request, Response, NextFunction } from 'express';
 
-const authenticate = async (req, res, next) => {
+export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
   const token = req.header('X-AUTH');
 
   try {
@@ -15,8 +16,4 @@ const authenticate = async (req, res, next) => {
   } catch (err) {
     res.status(401).send();
   }
-};
-
-module.exports = {
-  authenticate
 };

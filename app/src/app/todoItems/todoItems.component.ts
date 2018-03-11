@@ -6,10 +6,8 @@ import {
   OnDestroy
 } from '@angular/core';
 import { TodoItemsService } from './todoItems.service';
-import { Subscription } from 'rxjs/Subscription';
 import { TodoItem } from './todoItem';
 import { Observable } from 'rxjs/Observable';
-import { EventEmitter } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-todo-items',
