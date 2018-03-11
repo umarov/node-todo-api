@@ -3,16 +3,25 @@
 // Import your custom theme
 @import 'src/theme.scss';
 
-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
+.login-component {
+  padding: 0px 16px;
+  display: grid;
+  height: calc(100vh - 56px);
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(112, 255, 235, 0.5686274509803921);
+}
+
+mat-card {
+  width: calc(80vw - 24px);
+  max-width: 400px;
+}
+
+mat-card-actions.mat-card-actions {
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .example-full-width {
   width: 100%;
-}
-
-mat-card {
-  margin: 12px;
 }
