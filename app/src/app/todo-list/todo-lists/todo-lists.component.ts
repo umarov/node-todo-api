@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { TodoListsService } from './todo-lists.service';
-import { TodoList } from './todo-list';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute } from '@angular/router';
-import { take } from 'rxjs/operators';
+import { take } from 'rxjs/operators/take';
+
+import { TodoListsService } from './todo-lists.service';
+import { TodoList } from './todo-list';
 
 @Component({
   selector: 'app-todo-lists',

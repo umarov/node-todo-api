@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { TodoList } from '../todo-lists/todo-list';
-import { TodoListsService } from '../todo-lists/todo-lists.service';
 import { take } from 'rxjs/operators/take';
 import { Router } from '@angular/router';
+
+import { TodoList } from '../todo-lists/todo-list';
+import { TodoListsService } from '../todo-lists/todo-lists.service';
 
 @Component({
   selector: 'app-todo-list-form',
