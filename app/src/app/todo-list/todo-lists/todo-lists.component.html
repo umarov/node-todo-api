@@ -23,7 +23,10 @@
 
 </div>
 
-<ng-template #loading>Loading Todo lists...</ng-template>
+<ng-template #loading>
+  <mat-spinner></mat-spinner>
+  Loading Todo lists...
+</ng-template>
 
 <div>
   <button (click)="createTodoList()" class="add-todo-button" mat-fab color="primary">

@@ -28,7 +28,7 @@ export interface TodoStoreState {
 
 @Store<TodoStoreState>({
   defaults: {
-    todoLists: [],
+    todoLists: null,
     currentTodoList: new TodoList()
   }
 })

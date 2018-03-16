@@ -6,6 +6,7 @@ import { Ngxs } from 'ngxs';
 import { TodoList } from './todo-list';
 import { DeleteTodoList, LoadTodoLists } from '../store/events/todo-list.events';
 import { TodoStoreState } from '../store/todo-list.store';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-todo-lists',
@@ -16,14 +17,37 @@ import { TodoStoreState } from '../store/todo-list.store';
 export class TodoListsComponent implements OnInit {
   todoLists$: Observable<TodoList[]>;
 
-  constructor(private router: Router, private route: ActivatedRoute, private ngxs: Ngxs) {}
+  constructor(
+    private router: Router,
+    public snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private ngxs: Ngxs
+  ) {}
 
   ngOnInit() {
-    this.ngxs.dispatch(new LoadTodoLists());
+    this.getTodoLists();
 
-    this.todoLists$ = this.ngxs.select((state: TodoStoreState) => state.todoLists) as Observable<
-      TodoList[]
-    >;
+    window.addEventListener('online', this.updateOnlineStatus.bind(this));
+    window.addEventListener('offline', this.updateOnlineStatus.bind(this));
+
+    this.todoLists$ = this.ngxs.select(state => state.todoList.todoLists) as Observable<TodoList[]>;
+  }
+
+  private updateOnlineStatus(event) {
+    if (navigator.onLine) {
+      this.getTodoLists();
+      this.snackBar.open('You are back online', 'Dismiss', {
+        duration: 5000
+      });
+    } else {
+      this.snackBar.open('You are offline currently', 'Dismiss', {
+        duration: 5000
+      });
+    }
+  }
+
+  private getTodoLists() {
+    this.ngxs.dispatch(new LoadTodoLists());
   }
 
   createTodoList() {

@@ -43,7 +43,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.todoList$ = this.ngxs.select(state => state.currentTodoList) as Observable<TodoList>;
+    this.todoList$ = this.ngxs.select(store => store.todoList.currentTodoList) as Observable<TodoList>;
   }
 
   ngOnDestroy() {
