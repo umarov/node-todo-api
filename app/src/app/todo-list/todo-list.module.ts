@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+import { NgxsModule, LocalStoragePluginModule, StorageStrategy } from 'ngxs';
+
 import { TodoListRoutingModule } from './todo-list-routing.module';
 import { HomeComponent } from './home/home.component';
 
@@ -12,9 +14,16 @@ import { TodoItemsService } from './todoItems/todoItems.service';
 import { TodoListFormComponent } from './todo-list-form/todo-list-form.component';
 import { TodoListComponent } from './todo-lists/todo-list/todo-list.component';
 import { UiMaterialModule } from '../ui-material/ui-material.module';
+import { TodoListStore } from './store/todo-list.store';
 
 @NgModule({
-  imports: [CommonModule, TodoListRoutingModule, FormsModule, UiMaterialModule],
+  imports: [
+    CommonModule,
+    TodoListRoutingModule,
+    FormsModule,
+    UiMaterialModule,
+    NgxsModule.forRoot([TodoListStore])
+  ],
   declarations: [
     HomeComponent,
     TodoItemsComponent,
@@ -22,6 +31,6 @@ import { UiMaterialModule } from '../ui-material/ui-material.module';
     TodoListFormComponent,
     TodoListComponent
   ],
-  providers: [TodoListsService, TodoItemsService]
+  providers: [TodoListsService, TodoItemsService, TodoListStore]
 })
 export class TodoListModule {}

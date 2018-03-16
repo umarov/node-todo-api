@@ -7,7 +7,7 @@ const findTodoItem = (id: string) => (todoItem: TodoItem) => todoItem.id === +id
 const getTodoItems = (req: Request, res: Response) => {
   const todoItems = req.todoList.todoItems;
 
-  res.send({ todoItems });
+  res.send(todoItems);
 };
 
 const postTodoItem = async (req: Request, res: Response) => {
@@ -20,7 +20,7 @@ const postTodoItem = async (req: Request, res: Response) => {
     todoItem.todoList = todoList;
 
     await getRepository(TodoItem).save(todoItem);
-    res.send({ todoItem });
+    res.send(todoItem);
   } catch (e) {
     res.status(400).send(e);
   }
@@ -29,8 +29,8 @@ const postTodoItem = async (req: Request, res: Response) => {
 const deleteTodoItem = async (req: Request, res: Response) => {
   try {
     const { todoItemId } = req.params;
-
-    res.send({ todoItem: await getRepository(TodoItem).deleteById(todoItemId) });
+    await getRepository(TodoItem).deleteById(todoItemId)
+    res.send({ todoItemId });
   } catch (err) {
     res.status(400).send();
   }
@@ -44,7 +44,7 @@ const showTodoItem = async (req: Request, res: Response) => {
     const todoItem = todoList.todoItems.find(findTodoItem(todoItemId));
 
     if (todoItem) {
-      res.send({ todoItem });
+      res.send(todoItem);
     } else {
       res.status(404).send();
     }
@@ -66,7 +66,7 @@ const updateTodoItem = async (req: Request, res: Response) => {
 
       await getRepository(TodoItem).save(todoItem);
 
-      res.status(200).send({ todoItem });
+      res.status(200).send(todoItem);
     } else {
       res.status(404).send();
     }

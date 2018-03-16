@@ -13,22 +13,19 @@ export class TodoItemsService {
   constructor(private http: HttpClient, private todoListsService: TodoListsService) {}
 
   getTodoItems(todoListId: string): Observable<TodoItem[]> {
-    return this.http
-      .get(`${environment.backendUrl}/todoLists/${todoListId}/todoItems`)
-      .pipe(map(body => body['todoItems'] as TodoItem[]));
+    return this.http.get<TodoItem[]>(`${environment.backendUrl}/todoLists/${todoListId}/todoItems`);
   }
 
   createTodoItem(todoListId: string, todoItem: TodoItem) {
-    return this.http.post(
-      `${environment.backendUrl}/todoLists/${todoListId}/todoItems`,
-      {
+    return this.http
+      .post<TodoItem>(`${environment.backendUrl}/todoLists/${todoListId}/todoItems`, {
         todoItem
-      }
-    ).pipe(tap(() => this.todoListsService.getTodoList(todoListId)));
+      })
+      .pipe(tap(() => this.todoListsService.getTodoList(todoListId)));
   }
 
   updateTodoItem(todoListId: string, todoItem: TodoItem) {
-    return this.http.patch(
+    return this.http.patch<TodoItem>(
       `${environment.backendUrl}/todoLists/${todoListId}/todoItems/${todoItem.id}`,
       {
         todoItem
@@ -37,8 +34,10 @@ export class TodoItemsService {
   }
 
   deleteTodoItem(todoListId: string, todoItem: TodoItem) {
-    return this.http.delete(
-      `${environment.backendUrl}/todoLists/${todoListId}/todoItems/${todoItem.id}`,
-    ).pipe(tap(() => this.todoListsService.getTodoList(todoListId)));
+    return this.http
+      .delete<{ todoItemId: string }>(
+        `${environment.backendUrl}/todoLists/${todoListId}/todoItems/${todoItem.id}`
+      )
+      .pipe(tap(() => this.todoListsService.getTodoList(todoListId)));
   }
 }

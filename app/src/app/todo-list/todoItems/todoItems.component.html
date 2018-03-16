@@ -1,5 +1,5 @@
 <mat-list>
-  <mat-list-item class="todo-items" *ngFor="let todoItem of todoItems | async">
+  <mat-list-item class="todo-items" *ngFor="let todoItem of todoItems">
     <mat-checkbox disabled [checked]="todoItem.completed">
     </mat-checkbox>
     <span class="mat-checkbox-long-text" [ngClass]="{ completed: todoItem.completed }">

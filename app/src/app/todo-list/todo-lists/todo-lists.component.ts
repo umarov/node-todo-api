@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute } from '@angular/router';
-import { take } from 'rxjs/operators/take';
+import { Ngxs, Select } from 'ngxs';
 
-import { TodoListsService } from './todo-lists.service';
 import { TodoList } from './todo-list';
+import { DeleteTodoList, LoadTodoLists } from '../store/events/todo-list.events';
 
 @Component({
   selector: 'app-todo-lists',
@@ -13,41 +13,27 @@ import { TodoList } from './todo-list';
   encapsulation: ViewEncapsulation.Native
 })
 export class TodoListsComponent implements OnInit {
-  todoLists: Observable<TodoList[]>;
+  @Select('todoList.todoLists') todoLists$: Observable<TodoList[]>;
 
-  constructor(
-    private todoListsService: TodoListsService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
-    this.todoLists = this.todoListsService.getTodoLists();
+  constructor(private router: Router, private route: ActivatedRoute, private ngxs: Ngxs) {}
+
+  ngOnInit() {
+    this.ngxs.dispatch(new LoadTodoLists());
   }
 
-  ngOnInit() {}
-
   createTodoList() {
-    this.router.navigate(['new'], {relativeTo: this.route});
+    this.router.navigate(['new'], { relativeTo: this.route });
   }
 
   showTodoList(todoListId: string) {
     this.router.navigate(['todo-lists', todoListId]);
   }
 
-  delete(todoList) {
-    this.todoListsService
-      .deleteTodoList(todoList)
-      .pipe(take(1))
-      .subscribe(
-        () => {
-          this.todoListsService.getTodoLists();
-        },
-        err => {
-          console.error(err);
-        }
-      );
+  delete(todoList: TodoList) {
+    this.ngxs.dispatch(new DeleteTodoList({ todoListId: todoList.id }));
   }
 
-  trackTodoLists(index, todoList: TodoList) {
+  trackTodoLists(_: number, todoList: TodoList) {
     return todoList.id;
   }
 }

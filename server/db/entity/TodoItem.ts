@@ -21,7 +21,7 @@ export class TodoItem {
   completed: boolean;
 
   @Column('date', { nullable: true })
-  completedAt: Date;
+  completedAt: string;
 
   @ManyToOne(type => TodoList, todoList => todoList.todoItems)
   todoList: TodoList;
@@ -38,7 +38,7 @@ export class TodoItem {
   @BeforeInsert()
   public updateCompletedAtDate() {
     if (this.completed) {
-      this.completedAt = new Date();
+      this.completedAt = (new Date()).toISOString();
     }
   }
 }

@@ -7,7 +7,7 @@ const getTodoLists = async (req: Request, res: Response) => {
   try {
     const todoLists = user.todoLists;
 
-    res.send({ todoLists });
+    res.send(todoLists);
   } catch (err) {
     res.status(400).send(err);
   }
@@ -18,7 +18,7 @@ const postTodoList = async (req: Request, res: Response) => {
   const { title, color, completed } = body;
   try {
     const todoList = await TodoList.create({ title, color, completed, user });
-    res.send({ todoList });
+    res.send(todoList);
   } catch (e) {
     res.status(400).send(e);
   }
@@ -29,7 +29,7 @@ const deleteTodoList = async (req: Request, res: Response) => {
   try {
     await getRepository(TodoList).remove(todoList);
 
-    res.send({ todoList });
+    res.send(todoList);
   } catch (_) {
     res.status(400).send();
   }
@@ -38,7 +38,7 @@ const deleteTodoList = async (req: Request, res: Response) => {
 const showTodoList = async (req: Request, res: Response) => {
   const { todoList } = req;
 
-  res.send({ todoList });
+  res.send(todoList);
 };
 
 const updateTodoList = async (req: Request, res: Response) => {
@@ -54,7 +54,7 @@ const updateTodoList = async (req: Request, res: Response) => {
       user
     });
 
-    res.status(200).send({ todoList });
+    res.status(200).send(todoList);
   } catch (err) {
     res.status(400).send();
   }

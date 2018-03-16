@@ -1,4 +1,4 @@
-<div class="todo-list-container" *ngIf="todoList | async; let todoList">
+<div class="todo-list-container" *ngIf="todoList$ | async; let todoList">
   <div class="todo-list-content" [ngStyle]="{'background-color': todoList.color}">
     <h1>{{todoList.title}}</h1>
     <mat-list>
@@ -13,19 +13,31 @@
         </form>
       </mat-list-item>
       <br />
-      <mat-list-item *ngFor="let todoItem of todoList.todoItems; trackBy: trackByTodoItems">
-        <mat-checkbox
-          class="todo-item-checkbox"
-          (change)="todoItemUpdated(todoItem)"
-          [(ngModel)]="todoItem.completed"
-          [ngClass]="{ completed: todoItem.completed }">
-          {{todoItem.text}}
-        </mat-checkbox>
-        <div class="fill-remaining-space"></div>
-        <button mat-icon-button color="red" (click)="removeTodoItem(todoItem)">
-          <mat-icon aria-label="Delete todo item icon button">clear</mat-icon>
-        </button>
-      </mat-list-item>
+      <ng-template ngFor let-todoItem [ngForOf]="todoList.todoItems" [ngForTrackBy]="trackByTodoItems">
+        <mat-list-item *ngIf="!todoItem.completed">
+          <mat-checkbox class="todo-item-checkbox" (change)="todoItemUpdated(todoItem)" [(ngModel)]="todoItem.completed" [ngClass]="{ completed: todoItem.completed }">
+            {{todoItem.text}}
+          </mat-checkbox>
+          <div class="fill-remaining-space"></div>
+          <button mat-icon-button color="red" (click)="removeTodoItem(todoItem)">
+            <mat-icon aria-label="Delete todo item icon button">clear</mat-icon>
+          </button>
+        </mat-list-item>
+      </ng-template>
+
+      <mat-divider></mat-divider>
+      <h4 *ngIf="todoList.todoItems.length > 0">Completed:</h4>
+      <ng-template ngFor let-todoItem [ngForOf]="todoList.todoItems" [ngForTrackBy]="trackByTodoItems">
+        <mat-list-item *ngIf="todoItem.completed">
+          <mat-checkbox class="todo-item-checkbox" (change)="todoItemUpdated(todoItem)" [(ngModel)]="todoItem.completed" [ngClass]="{ completed: todoItem.completed }">
+            {{todoItem.text}}
+          </mat-checkbox>
+          <div class="fill-remaining-space"></div>
+          <button mat-icon-button color="red" (click)="removeTodoItem(todoItem)">
+            <mat-icon aria-label="Delete todo item icon button">clear</mat-icon>
+          </button>
+        </mat-list-item>
+      </ng-template>
     </mat-list>
   </div>
 </div>
