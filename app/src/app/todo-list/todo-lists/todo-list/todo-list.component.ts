@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { take } from 'rxjs/operators/take';
 import { Observable } from 'rxjs/Observable';
-import { Ngxs, Select } from 'ngxs';
+import { Ngxs } from 'ngxs';
 
 import { TodoList } from '../todo-list';
 import { TodoItem } from '../../todoItems/todoItem';
@@ -22,7 +22,7 @@ import {
   styleUrls: ['./todo-list.component.scss']
 })
 export class TodoListComponent implements OnInit, OnDestroy {
-  @Select('todoList.currentTodoList') todoList$: Observable<TodoList>;
+  todoList$: Observable<TodoList>;
   todoItemText: string;
   todoListId: string;
   creatingNewItem = true;
@@ -42,6 +42,8 @@ export class TodoListComponent implements OnInit, OnDestroy {
         this.ngxs.dispatch(new LoadTodoList({ todoListId: this.todoListId }));
       }
     });
+
+    this.todoList$ = this.ngxs.select(state => state.currentTodoList) as Observable<TodoList>;
   }
 
   ngOnDestroy() {
@@ -56,9 +58,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
       this.ngxs
         .dispatch(new AddTodoItem({ todoItem, todoListId: this.todoListId }))
         .pipe(take(1))
-        .subscribe(_ => {
-          formObject.reset();
-        }, console.error);
+        .subscribe(() => formObject.reset(), console.error);
     }
   }
 

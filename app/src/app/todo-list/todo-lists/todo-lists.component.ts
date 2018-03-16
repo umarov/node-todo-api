@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Ngxs, Select } from 'ngxs';
+import { Ngxs } from 'ngxs';
 
 import { TodoList } from './todo-list';
 import { DeleteTodoList, LoadTodoLists } from '../store/events/todo-list.events';
+import { TodoStoreState } from '../store/todo-list.store';
 
 @Component({
   selector: 'app-todo-lists',
@@ -13,12 +14,16 @@ import { DeleteTodoList, LoadTodoLists } from '../store/events/todo-list.events'
   encapsulation: ViewEncapsulation.Native
 })
 export class TodoListsComponent implements OnInit {
-  @Select('todoList.todoLists') todoLists$: Observable<TodoList[]>;
+  todoLists$: Observable<TodoList[]>;
 
   constructor(private router: Router, private route: ActivatedRoute, private ngxs: Ngxs) {}
 
   ngOnInit() {
     this.ngxs.dispatch(new LoadTodoLists());
+
+    this.todoLists$ = this.ngxs.select((state: TodoStoreState) => state.todoLists) as Observable<
+      TodoList[]
+    >;
   }
 
   createTodoList() {
