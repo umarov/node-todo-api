@@ -7,6 +7,10 @@ export class SetTodoLists {
   constructor(public payload: { todoLists: TodoList[] }) {}
 }
 
+export class CreateTodoList {
+  constructor(public payload: { todoList: TodoList }) {}
+}
+
 export class SetTodoItemToList {
   constructor(public payload: { todoItem: TodoItem }) {}
 }

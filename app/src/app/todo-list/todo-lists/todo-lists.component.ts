@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Ngxs } from 'ngxs';
+import { Ngxs, Select } from 'ngxs';
 
 import { TodoList } from './todo-list';
 import { DeleteTodoList, LoadTodoLists } from '../store/events/todo-list.events';
@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material';
   encapsulation: ViewEncapsulation.Native
 })
 export class TodoListsComponent implements OnInit {
-  todoLists$: Observable<TodoList[]>;
+  @Select('todoList.todoLists') todoLists$: Observable<TodoList[]>;
 
   constructor(
     private router: Router,
@@ -29,8 +29,6 @@ export class TodoListsComponent implements OnInit {
 
     window.addEventListener('online', this.updateOnlineStatus.bind(this));
     window.addEventListener('offline', this.updateOnlineStatus.bind(this));
-
-    this.todoLists$ = this.ngxs.select(state => state.todoList.todoLists) as Observable<TodoList[]>;
   }
 
   private updateOnlineStatus(event) {

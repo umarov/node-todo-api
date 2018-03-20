@@ -3,7 +3,8 @@ import { take } from 'rxjs/operators/take';
 import { Router } from '@angular/router';
 
 import { TodoList } from '../todo-lists/todo-list';
-import { TodoListsService } from '../todo-lists/todo-lists.service';
+import { Ngxs } from 'ngxs';
+import { CreateTodoList } from '../store/events/todo-list.events';
 
 @Component({
   selector: 'app-todo-list-form',
@@ -12,23 +13,18 @@ import { TodoListsService } from '../todo-lists/todo-lists.service';
 })
 export class TodoListFormComponent implements OnInit {
   todoList = new TodoList();
-  colors = [
-    'yellow',
-    'white',
-    'lightyellow',
-    'floralwhite',
-  ];
+  colors = ['yellow', 'white', 'lightyellow', 'floralwhite'];
 
   constructor(
-    private todoListsService: TodoListsService,
-    private router: Router
+    private router: Router,
+    private ngxs: Ngxs
   ) {}
 
   ngOnInit() {}
 
   onCreate() {
-    this.todoListsService
-      .createTodoList(this.todoList)
+    this.ngxs
+      .dispatch(new CreateTodoList({ todoList: this.todoList }))
       .pipe(take(1))
       .subscribe(
         _ => {

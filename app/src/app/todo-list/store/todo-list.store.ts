@@ -14,7 +14,8 @@ import {
   UpdateTodoItem,
   SetTodoItemToList,
   UpdateTodoItemInList,
-  DeleteTodoItemFromList
+  DeleteTodoItemFromList,
+  CreateTodoList
 } from './events/todo-list.events';
 import { TodoListsService } from '../todo-lists/todo-lists.service';
 import { TodoItemsService } from '../todoItems/todoItems.service';
@@ -40,7 +41,7 @@ export class TodoListStore {
 
   @Mutation(AddTodoList)
   addTodoList(state: TodoStoreState, { payload }: AddTodoList) {
-    state.todoLists = [...state.todoLists, payload.todoList];
+    state.todoLists = state.todoLists ? [...state.todoLists, payload.todoList] : [payload.todoList];
   }
 
   @Mutation(SetTodoLists)
@@ -100,6 +101,13 @@ export class TodoListStore {
     return this.todoListsService
       .getTodoList(payload.todoListId)
       .pipe(map(todoList => new SetCurrentTodoList({ todoList })));
+  }
+
+  @Action(CreateTodoList)
+  createTodoList(_: TodoStoreState, { payload }: CreateTodoList) {
+    return this.todoListsService
+      .createTodoList(payload.todoList)
+      .pipe(map(todoList => new AddTodoList({ todoList })));
   }
 
   @Action(DeleteTodoList)
