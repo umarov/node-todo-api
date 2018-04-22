@@ -3,7 +3,7 @@ import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { User } from '../login.component';
-import { take } from 'rxjs/operators/take';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-signup-form',

@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { take } from 'rxjs/operators/take';
-import { Observable } from 'rxjs/Observable';
-import { Ngxs, Select } from 'ngxs';
+import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { Store, Select } from '@ngxs/store';
 
 import { TodoList } from '../todo-list';
 import { TodoItem } from '../../todoItems/todoItem';
-import { TodoStoreState } from '../../store/todo-list.store';
+import { TodoListStore } from '../../store/todo-list.store';
 import {
   LoadTodoList,
   AddTodoItem,
@@ -21,15 +21,12 @@ import {
   styleUrls: ['./todo-list.component.scss']
 })
 export class TodoListComponent implements OnInit, OnDestroy {
-  @Select('todoList.currentTodoList') todoList$: Observable<TodoList>;
+  @Select(state => state.todo.currentTodoList) todoList$: Observable<TodoList>;
   todoItemText: string;
   todoListId: string;
   creatingNewItem = true;
 
-  constructor(
-    private route: ActivatedRoute,
-    private ngxs: Ngxs
-  ) {}
+  constructor(private route: ActivatedRoute, private store: Store) {}
 
   ngOnInit() {
     this.route.paramMap.pipe(take(1)).subscribe((params: ParamMap) => {
@@ -37,13 +34,13 @@ export class TodoListComponent implements OnInit, OnDestroy {
 
       if (todoListId) {
         this.todoListId = todoListId;
-        this.ngxs.dispatch(new LoadTodoList({ todoListId: this.todoListId }));
+        this.store.dispatch(new LoadTodoList({ todoListId: this.todoListId }));
       }
     });
   }
 
   ngOnDestroy() {
-    this.ngxs.dispatch(new ClearCurrentTodoList());
+    this.store.dispatch(new ClearCurrentTodoList());
   }
 
   onTodoItemAdded(formObject) {
@@ -51,7 +48,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
     if (todoItemText) {
       const todoItem = new TodoItem(todoItemText);
 
-      this.ngxs
+      this.store
         .dispatch(new AddTodoItem({ todoItem, todoListId: this.todoListId }))
         .pipe(take(1))
         .subscribe(() => formObject.reset(), console.error);
@@ -59,11 +56,11 @@ export class TodoListComponent implements OnInit, OnDestroy {
   }
 
   todoItemUpdated(todoItem: TodoItem) {
-    this.ngxs.dispatch(new UpdateTodoItem({ todoItem, todoListId: this.todoListId }));
+    this.store.dispatch(new UpdateTodoItem({ todoItem, todoListId: this.todoListId }));
   }
 
   removeTodoItem(todoItem: TodoItem) {
-    this.ngxs.dispatch(new RemoveTodoItem({ todoItem, todoListId: this.todoListId }));
+    this.store.dispatch(new RemoveTodoItem({ todoItem, todoListId: this.todoListId }));
   }
 
   trackByTodoItems(_: number, todoItem: TodoItem) {

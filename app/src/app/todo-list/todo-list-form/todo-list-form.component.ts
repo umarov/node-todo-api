@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { take } from 'rxjs/operators/take';
+import { take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { TodoList } from '../todo-lists/todo-list';
-import { Ngxs } from 'ngxs';
+import { Store } from '@ngxs/store';
 import { CreateTodoList } from '../store/events/todo-list.events';
 
 @Component({
@@ -17,13 +17,13 @@ export class TodoListFormComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private ngxs: Ngxs
+    private store: Store
   ) {}
 
   ngOnInit() {}
 
   onCreate() {
-    this.ngxs
+    this.store
       .dispatch(new CreateTodoList({ todoList: this.todoList }))
       .pipe(take(1))
       .subscribe(

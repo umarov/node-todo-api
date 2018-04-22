@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
-import { take } from 'rxjs/operators/take';
+import { take } from 'rxjs/operators';
 
 import { AuthService } from '../auth/auth.service';
 import { User } from '../login.component';

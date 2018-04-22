@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { User } from '../login.component';
-import { tap } from 'rxjs/operators/tap';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {

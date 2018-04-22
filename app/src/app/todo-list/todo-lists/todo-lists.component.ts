@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Ngxs, Select } from 'ngxs';
+import { Store, Select } from '@ngxs/store';
 
 import { TodoList } from './todo-list';
 import { DeleteTodoList, LoadTodoLists } from '../store/events/todo-list.events';
-import { TodoStoreState } from '../store/todo-list.store';
+import { TodoListStore } from '../store/todo-list.store';
 import { MatSnackBar } from '@angular/material';
 
 @Component({
@@ -15,13 +15,13 @@ import { MatSnackBar } from '@angular/material';
   encapsulation: ViewEncapsulation.Native
 })
 export class TodoListsComponent implements OnInit {
-  @Select('todoList.todoLists') todoLists$: Observable<TodoList[]>;
+  @Select(state => state.todo.todoLists) todoLists$: Observable<TodoList[]>;
 
   constructor(
     private router: Router,
     public snackBar: MatSnackBar,
     private route: ActivatedRoute,
-    private ngxs: Ngxs
+    private store: Store
   ) {}
 
   ngOnInit() {
@@ -45,7 +45,7 @@ export class TodoListsComponent implements OnInit {
   }
 
   private getTodoLists() {
-    this.ngxs.dispatch(new LoadTodoLists());
+    this.store.dispatch(new LoadTodoLists());
   }
 
   createTodoList() {
@@ -57,7 +57,7 @@ export class TodoListsComponent implements OnInit {
   }
 
   delete(todoList: TodoList) {
-    this.ngxs.dispatch(new DeleteTodoList({ todoListId: todoList.id }));
+    this.store.dispatch(new DeleteTodoList({ todoListId: todoList.id }));
   }
 
   trackTodoLists(_: number, todoList: TodoList) {

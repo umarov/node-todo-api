@@ -1,8 +1,8 @@
 import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, NavigationEnd } from '@angular/router';
-import { take } from 'rxjs/operators/take';
-import { Subscription } from 'rxjs/Subscription';
+import { take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 import { AuthService } from './login/auth/auth.service';
 import { environment } from '../environments/environment';

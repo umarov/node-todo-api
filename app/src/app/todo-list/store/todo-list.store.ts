@@ -1,5 +1,5 @@
-import { Store, Mutation, Action } from 'ngxs';
-import { map } from 'rxjs/operators/map';
+import { State, StateContext, Action } from '@ngxs/store';
+import { tap } from 'rxjs/operators';
 
 import {
   LoadTodoLists,
@@ -27,9 +27,10 @@ export interface TodoStoreState {
   currentTodoList: TodoList;
 }
 
-@Store<TodoStoreState>({
+@State<TodoStoreState>({
+  name: 'todo',
   defaults: {
-    todoLists: null,
+    todoLists: [],
     currentTodoList: new TodoList()
   }
 })
@@ -39,102 +40,136 @@ export class TodoListStore {
     private todoItemsService: TodoItemsService
   ) {}
 
-  @Mutation(AddTodoList)
-  addTodoList(state: TodoStoreState, { payload }: AddTodoList) {
-    state.todoLists = state.todoLists ? [...state.todoLists, payload.todoList] : [payload.todoList];
-  }
+  @Action(ClearCurrentTodoList)
+  clearCurrentTodoList({ getState, setState }: StateContext<TodoStoreState>) {
+    const state = getState();
 
-  @Mutation(SetTodoLists)
-  setTodoList(state: TodoStoreState, { payload }: SetTodoLists) {
-    state.todoLists = payload.todoLists.slice();
-  }
-
-  @Mutation(SetCurrentTodoList)
-  setCurrentTodoList(state: TodoStoreState, { payload }: SetCurrentTodoList) {
-    state.currentTodoList = Object.assign({}, payload.todoList);
-  }
-
-  @Mutation(SetTodoItemToList)
-  SetTodoItemToList(state: TodoStoreState, { payload }: SetTodoItemToList) {
-    state.currentTodoList.todoItems = [payload.todoItem, ...state.currentTodoList.todoItems];
-  }
-
-  @Mutation(UpdateTodoItemInList)
-  updateTodoItemInList(state: TodoStoreState, { payload }: UpdateTodoItemInList) {
-    state.currentTodoList.todoItems = state.currentTodoList.todoItems.map(todoItem => {
-      if (todoItem.id === payload.todoItem.id) {
-        return payload.todoItem;
-      } else {
-        return todoItem;
-      }
+    setState({
+      ...state,
+      currentTodoList: new TodoList()
     });
   }
 
-  @Mutation(DeleteTodoItemFromList)
-  deleteTodoItemFromList(state: TodoStoreState, { payload }: DeleteTodoItemFromList) {
-    state.currentTodoList.todoItems = state.currentTodoList.todoItems.reduce(
-      (todoItems, todoItem) => {
-        if (todoItem.id !== +payload.todoItemId) {
-          todoItems.push(todoItem);
-        }
+  @Action(LoadTodoLists)
+  loadTodoLists({ getState, setState }: StateContext<TodoStoreState>) {
+    return this.todoListsService.getTodoLists().pipe(
+      tap(todoLists => {
+        const state = getState();
 
-        return todoItems;
-      },
-      [] as TodoItem[]
+        setState({
+          ...state,
+          todoLists: todoLists.slice()
+        });
+      })
     );
   }
 
-  @Mutation(ClearCurrentTodoList)
-  clearCurrentTodoList(state: TodoStoreState) {
-    state.currentTodoList = new TodoList();
-  }
-
-  @Action(LoadTodoLists)
-  loadTodoLists() {
-    return this.todoListsService
-      .getTodoLists()
-      .pipe(map(todoLists => new SetTodoLists({ todoLists })));
-  }
-
   @Action(LoadTodoList)
-  loadTodoList(_: TodoStoreState, { payload }: LoadTodoList) {
-    return this.todoListsService
-      .getTodoList(payload.todoListId)
-      .pipe(map(todoList => new SetCurrentTodoList({ todoList })));
+  loadTodoList({ getState, setState }: StateContext<TodoStoreState>, { payload }: LoadTodoList) {
+    return this.todoListsService.getTodoList(payload.todoListId).pipe(
+      tap(todoList => {
+        const state = getState();
+
+        setState({
+          ...state,
+          currentTodoList: Object.assign({}, todoList)
+        });
+      })
+    );
   }
 
   @Action(CreateTodoList)
-  createTodoList(_: TodoStoreState, { payload }: CreateTodoList) {
-    return this.todoListsService
-      .createTodoList(payload.todoList)
-      .pipe(map(todoList => new AddTodoList({ todoList })));
+  createTodoList(
+    { getState, setState }: StateContext<TodoStoreState>,
+    { payload }: CreateTodoList
+  ) {
+    return this.todoListsService.createTodoList(payload.todoList).pipe(
+      tap(todoList => {
+        const state = getState();
+        setState({
+          ...state,
+          todoLists: state.todoLists ? [...state.todoLists, payload.todoList] : [payload.todoList]
+        });
+      })
+    );
   }
 
   @Action(DeleteTodoList)
-  deleteTodoList(_: TodoStoreState, { payload }: DeleteTodoList) {
+  deleteTodoList({ dispatch }: StateContext<TodoStoreState>, { payload }: DeleteTodoList) {
     return this.todoListsService
       .deleteTodoList(payload.todoListId)
-      .pipe(map(() => new LoadTodoLists()));
+      .pipe(tap(() => dispatch(LoadTodoLists)));
   }
 
   @Action(AddTodoItem)
-  addTodoItem(_: TodoStoreState, { payload }: AddTodoItem) {
-    return this.todoItemsService
-      .createTodoItem(payload.todoListId, payload.todoItem)
-      .pipe(map(todoItem => new SetTodoItemToList({ todoItem })));
+  addTodoItem({ getState, setState }: StateContext<TodoStoreState>, { payload }: AddTodoItem) {
+    return this.todoItemsService.createTodoItem(payload.todoListId, payload.todoItem).pipe(
+      tap(todoItem => {
+        const state = getState();
+
+        setState({
+          ...state,
+          currentTodoList: {
+            ...state.currentTodoList,
+            todoItems: [todoItem, ...state.currentTodoList.todoItems]
+          }
+        });
+      })
+    );
   }
 
   @Action(UpdateTodoItem)
-  updateTodoItem(_: TodoStoreState, { payload }: UpdateTodoItem) {
-    return this.todoItemsService
-      .updateTodoItem(payload.todoListId, payload.todoItem)
-      .pipe(map(todoItem => new UpdateTodoItemInList({ todoItem })));
+  updateTodoItem(
+    { getState, setState }: StateContext<TodoStoreState>,
+    { payload }: UpdateTodoItem
+  ) {
+    return this.todoItemsService.updateTodoItem(payload.todoListId, payload.todoItem).pipe(
+      tap(todoItem => {
+        const state = getState();
+
+        setState({
+          ...state,
+          currentTodoList: {
+            ...state.currentTodoList,
+            todoItems: state.currentTodoList.todoItems.map(currentTodoItem => {
+              if (currentTodoItem.id === todoItem.id) {
+                return todoItem;
+              } else {
+                return currentTodoItem;
+              }
+            })
+          }
+        });
+      })
+    );
   }
 
   @Action(RemoveTodoItem)
-  removeTodoItem(_: TodoStoreState, { payload }: RemoveTodoItem) {
-    return this.todoItemsService
-      .deleteTodoItem(payload.todoListId, payload.todoItem)
-      .pipe(map(({ todoItemId }) => new DeleteTodoItemFromList({ todoItemId })));
+  removeTodoItem(
+    { getState, setState }: StateContext<TodoStoreState>,
+    { payload }: RemoveTodoItem
+  ) {
+    return this.todoItemsService.deleteTodoItem(payload.todoListId, payload.todoItem).pipe(
+      tap(({ todoItemId }) => {
+        const state = getState();
+
+        setState({
+          ...state,
+          currentTodoList: {
+            ...state.currentTodoList,
+            todoItems: state.currentTodoList.todoItems.reduce(
+              (todoItems, todoItem) => {
+                if (todoItem.id !== +todoItemId) {
+                  todoItems.push(todoItem);
+                }
+
+                return todoItems;
+              },
+              [] as TodoItem[]
+            )
+          }
+        });
+      })
+    );
   }
 }

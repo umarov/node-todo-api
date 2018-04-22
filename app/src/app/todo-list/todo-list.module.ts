@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { NgxsModule, LocalStoragePluginModule, StorageStrategy } from 'ngxs';
+import { NgxsModule } from '@ngxs/store';
 
 import { TodoListRoutingModule } from './todo-list-routing.module';
 import { HomeComponent } from './home/home.component';
