@@ -21,7 +21,7 @@ import {
   styleUrls: ['./todo-list.component.scss']
 })
 export class TodoListComponent implements OnInit, OnDestroy {
-  @Select(state => state.todo.currentTodoList) todoList$: Observable<TodoList>;
+  @Select(state => state['todo']['currentTodoList']) todoList$: Observable<TodoList>;
   todoItemText: string;
   todoListId: string;
   creatingNewItem = true;

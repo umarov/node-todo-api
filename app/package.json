@@ -27,8 +27,8 @@
     "@ngxs/store": "^3.0.0-rc.1",
     "core-js": "^2.5.5",
     "hammerjs": "^2.0.8",
-    "rxjs": "^6.0.0-uncanny-rc.7",
-    "rxjs-compat": "^6.0.0-uncanny-rc.7",
+    "rxjs": "^6.0.0",
+    "rxjs-compat": "^6.0.0",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

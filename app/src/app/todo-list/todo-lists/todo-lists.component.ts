@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material';
   encapsulation: ViewEncapsulation.Native
 })
 export class TodoListsComponent implements OnInit {
-  @Select(state => state.todo.todoLists) todoLists$: Observable<TodoList[]>;
+  @Select(state => state['todo']['todoLists']) todoLists$: Observable<TodoList[]>;
 
   constructor(
     private router: Router,

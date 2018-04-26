@@ -99,7 +99,6 @@ export class User {
   @BeforeInsert()
   public async hashPassword() {
     const options = {
-      memoryCost: 15,
       parallelism: 2,
       timeCost: 8,
       type: argon2.argon2d
