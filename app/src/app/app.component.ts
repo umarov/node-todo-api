@@ -20,11 +20,6 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(public authService: AuthService, private http: HttpClient, private router: Router) {}
 
   ngOnInit() {
-    this.http
-      .get(`${environment.backendUrl}`, { responseType: 'text' })
-      .pipe(take(1))
-      .subscribe(console.log, console.error);
-
     this.routerSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         const urlParts = event.url.split('/');

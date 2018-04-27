@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { take } from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Store, Select } from '@ngxs/store';
 
@@ -21,7 +21,7 @@ import {
   styleUrls: ['./todo-list.component.scss']
 })
 export class TodoListComponent implements OnInit, OnDestroy {
-  @Select(state => state['todo']['currentTodoList']) todoList$: Observable<TodoList>;
+  todoList$: Observable<TodoList>;
   todoItemText: string;
   todoListId: string;
   creatingNewItem = true;
@@ -29,6 +29,10 @@ export class TodoListComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute, private store: Store) {}
 
   ngOnInit() {
+    this.todoList$ = this.store
+      .select(state => state)
+      .pipe(map(state => state.todo.currentTodoList));
+
     this.route.paramMap.pipe(take(1)).subscribe((params: ParamMap) => {
       const todoListId = params.get('id');
 

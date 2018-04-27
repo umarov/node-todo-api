@@ -7,6 +7,7 @@ import { TodoList } from './todo-list';
 import { DeleteTodoList, LoadTodoLists } from '../store/events/todo-list.events';
 import { TodoListStore } from '../store/todo-list.store';
 import { MatSnackBar } from '@angular/material';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-todo-lists',
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material';
   encapsulation: ViewEncapsulation.Native
 })
 export class TodoListsComponent implements OnInit {
-  @Select(state => state['todo']['todoLists']) todoLists$: Observable<TodoList[]>;
+  todoLists$: Observable<TodoList[]>;
 
   constructor(
     private router: Router,
@@ -25,6 +26,7 @@ export class TodoListsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.todoLists$ = this.store.select(state => state).pipe(map(state => state.todo.todoLists));
     this.getTodoLists();
 
     window.addEventListener('online', this.updateOnlineStatus.bind(this));

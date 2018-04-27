@@ -16,6 +16,7 @@ import { AuthInterceptor } from './login/auth/auth.interceptor';
 import { environment } from '../environments/environment';
 import { LoginFormComponent } from './login/login-form/login-form.component';
 import { SignupFormComponent } from './login/signup-form/signup-form.component';
+import { NgxsModule } from '@ngxs/store';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { SignupFormComponent } from './login/signup-form/signup-form.component';
     AppRoutesModule,
     ServiceWorkerModule.register('./ngsw-worker.js', {
       enabled: environment.production
-    })
+    }),
+    NgxsModule.forRoot()
   ],
   providers: [
     AuthService,
