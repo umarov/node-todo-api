@@ -1,3 +1,5 @@
+import { Application } from 'express';
+
 import { authenticate } from '../middleware/authenticate';
 import { todoListChecker } from '../middleware/todoList';
 
@@ -21,7 +23,7 @@ import {
   postUser, loginUser, logoutUser, showUser, getMe,
 } from './users.routes';
 
-function todoItemRoutes(todoListUrl, app) {
+function todoItemRoutes(todoListUrl: string, app: Application) {
   app.get(`${todoListUrl}/todoItems`, [authenticate, todoListChecker], getTodoItems);
   app.post(`${todoListUrl}/todoItems`, [authenticate, todoListChecker], postTodoItem);
   app.delete(
@@ -37,7 +39,7 @@ function todoItemRoutes(todoListUrl, app) {
   );
 }
 
-function todoListRoutes(app) {
+function todoListRoutes(app: Application) {
   app.get('/todoLists', authenticate, getTodoLists);
   app.post('/todoLists', authenticate, postTodoList);
   app.delete('/todoLists/:todoListId', [authenticate, todoListChecker], deleteTodoList);
@@ -47,7 +49,7 @@ function todoListRoutes(app) {
   todoItemRoutes('/todoLists/:todoListId', app);
 }
 
-function userRoutes(app) {
+function userRoutes(app: Application) {
   app.post('/users', postUser);
   app.post('/users/login', loginUser);
   app.post('/users/logout', authenticate, logoutUser);
@@ -55,7 +57,7 @@ function userRoutes(app) {
   app.get('/users/:id', authenticate, showUser);
 }
 
-export function setUpRoutes(app) {
+export function setUpRoutes(app: Application) {
   todoListRoutes(app);
   userRoutes(app);
 }

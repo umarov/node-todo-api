@@ -4,7 +4,7 @@ export async function connectDB() {
   const connection: Connection = await createConnection({
     type: 'postgres',
     host: process.env.PG_HOST,
-    port: +process.env.PG_PORT,
+    port: Number.parseInt(process.env.PG_PORT || ''),
     username: process.env.PG_USER,
     password: process.env.PG_PASSWORD,
     database: process.env.PG_DB,
